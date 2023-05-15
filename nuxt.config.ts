@@ -7,5 +7,9 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
-    modules: ["nuxt-icon"],
+    modules: ["nuxt-icon", "nuxt-headlessui"],
+    // Optionally change the default prefix.
+    headlessui: {
+        prefix: "",
+    },
 });
