@@ -8,7 +8,12 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
-    modules: ["nuxt-icon", "nuxt-headlessui", "@nuxt/content"],
+    modules: [
+        "nuxt-icon",
+        "nuxt-headlessui",
+        "@nuxt/content",
+        "@nuxt/image-edge",
+    ],
     // Optionally change the default prefix.
     headlessui: {
         prefix: "",
@@ -22,5 +27,8 @@ export default defineNuxtConfig({
                 base: path.resolve(__dirname, "content"),
             },
         },
+    },
+    image: {
+        dir: "assets/img",
     },
 });
