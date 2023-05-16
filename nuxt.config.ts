@@ -13,6 +13,7 @@ export default defineNuxtConfig({
         "nuxt-headlessui",
         "@nuxt/content",
         "@nuxt/image-edge",
+        "@nuxtjs/i18n",
     ],
     // Optionally change the default prefix.
     headlessui: {
@@ -30,5 +31,8 @@ export default defineNuxtConfig({
     },
     image: {
         dir: "assets/img",
+    },
+    i18n: {
+        /* module options */
     },
 });
