@@ -14,6 +14,7 @@ export default defineNuxtConfig({
         "@nuxt/content",
         "@nuxt/image-edge",
         "@nuxtjs/i18n",
+        "@sidebase/nuxt-auth",
     ],
     // Optionally change the default prefix.
     headlessui: {
@@ -34,5 +35,25 @@ export default defineNuxtConfig({
     },
     i18n: {
         /* module options */
+    },
+    auth: {
+        baseURL: "http://127.0.0.1:8000/api/auth/",
+        provider: {
+            type: "local",
+            endpoints: {
+                signIn: { path: "/login/", method: "post" },
+                signOut: { path: "/logout/", method: "post" },
+                getSession: { path: "/session/", method: "get" },
+            },
+            pages: {
+                login: "/login",
+            },
+            token: {
+                maxAgeInSeconds: 60 * 60 * 24 * 7,
+                headerName: "Authorization",
+            },
+        },
+        globalAppMiddleware: true,
+        isEnabled: true,
     },
 });

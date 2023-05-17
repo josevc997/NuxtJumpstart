@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-    <div class="max-w-5xl mx-auto space-y-8 pt-10">
+    <div class="max-w-5xl mx-auto space-y-8 py-10">
         <div class="mx-auto w-fit">
             <svg
                 width="61"
@@ -40,6 +40,14 @@
                 </div>
                 <div>HeadlessUI</div>
             </Card>
+            <NuxtLink to="/login">
+                <Card class="flex items-center gap-4">
+                    <div>
+                        <NuxtImg src="nuxt-auth.webp" width="40" height="40" />
+                    </div>
+                    <div>Nuxt-Auth</div>
+                </Card>
+            </NuxtLink>
             <Card class="flex items-center gap-4">
                 <div>
                     <NuxtImg src="nuxt-icon.webp" width="40" height="40" />

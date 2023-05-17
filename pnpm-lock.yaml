@@ -4,6 +4,7 @@ specifiers:
   '@nuxt/content': ^2.6.0
   '@nuxt/image-edge': 1.0.0-28059208.2abef1b
   '@nuxtjs/i18n': 8.0.0-beta.12
+  '@sidebase/nuxt-auth': 0.6.0-beta.2
   '@types/node': ^18
   autoprefixer: ^10.4.14
   nuxt: ^3.4.3
@@ -16,6 +17,7 @@ devDependencies:
   '@nuxt/content': 2.6.0
   '@nuxt/image-edge': 1.0.0-28059208.2abef1b
   '@nuxtjs/i18n': 8.0.0-beta.12
+  '@sidebase/nuxt-auth': 0.6.0-beta.2
   '@types/node': 18.16.9
   autoprefixer: 10.4.14_postcss@8.4.23
   nuxt: 3.4.3_@types+node@18.16.9
@@ -1274,6 +1276,37 @@ packages:
       rollup: 3.21.7
     dev: true
 
+  /@sidebase/nuxt-auth/0.6.0-beta.2:
+    resolution: {integrity: sha512-T8cm9gx2V/Wn530r0fdI6EfYzsGfOXBIANtK5Dz7VT4PVFnNRy4ifE9zNRnmtYyTMahORyokBOckQyQ2x/JFpQ==}
+    peerDependencies:
+      next-auth: ^4.21.1
+    dependencies:
+      '@nuxt/kit': 3.4.3
+      '@vueuse/core': 9.13.0
+      defu: 6.1.2
+      h3: 1.6.6
+      knitwork: 1.0.0
+      nitropack: 2.4.0
+      requrl: 3.0.2
+      ufo: 1.1.2
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@planetscale/database'
+      - '@upstash/redis'
+      - '@vercel/kv'
+      - '@vue/composition-api'
+      - debug
+      - encoding
+      - rollup
+      - supports-color
+      - vue
+    dev: true
+
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: true
@@ -1323,6 +1356,10 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: true
+
+  /@types/web-bluetooth/0.0.16:
+    resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
     dev: true
 
   /@unhead/dom/1.1.26:
@@ -1518,6 +1555,31 @@ packages:
 
   /@vue/shared/3.3.2:
     resolution: {integrity: sha512-0rFu3h8JbclbnvvKrs7Fe5FNGV9/5X2rPD7KmOzhLSUAiQH5//Hq437Gv0fR5Mev3u/nbtvmLl8XgwCU20/ZfQ==}
+    dev: true
+
+  /@vueuse/core/9.13.0:
+    resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.16
+      '@vueuse/metadata': 9.13.0
+      '@vueuse/shared': 9.13.0
+      vue-demi: 0.13.11
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
+  /@vueuse/metadata/9.13.0:
+    resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
+    dev: true
+
+  /@vueuse/shared/9.13.0:
+    resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
+    dependencies:
+      vue-demi: 0.13.11
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
     dev: true
 
   /abbrev/1.1.1:
@@ -5323,6 +5385,10 @@ packages:
 
   /requires-port/1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
+    dev: true
+
+  /requrl/3.0.2:
+    resolution: {integrity: sha512-f3gjR6d8MhOpn46PP+DSJywbmxi95fxQm3coXBFwognjFLla9X6tr8BdNyaIKNOEkaRbRcm0/zYAqN19N1oyhg==}
     dev: true
 
   /resolve-from/5.0.0:
