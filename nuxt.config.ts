@@ -15,6 +15,7 @@ export default defineNuxtConfig({
         "@nuxt/image-edge",
         "@nuxtjs/i18n",
         "@sidebase/nuxt-auth",
+        "@pinia/nuxt",
     ],
     // Optionally change the default prefix.
     headlessui: {
@@ -55,5 +56,15 @@ export default defineNuxtConfig({
         },
         globalAppMiddleware: true,
         isEnabled: true,
+    },
+    imports: {
+        dirs: ["./stores"],
+    },
+    pinia: {
+        autoImports: [
+            // automatically imports `defineStore`
+            "defineStore", // import { defineStore } from 'pinia'
+            ["defineStore", "definePiniaStore"], // import { defineStore as definePiniaStore } from 'pinia'
+        ],
     },
 });
