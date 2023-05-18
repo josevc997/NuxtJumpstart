@@ -2,6 +2,16 @@
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## Use this template executing
+
+```bash
+# npm
+npx degit josevc997/NuxtJumpstart yourAppName
+
+# pnpm
+pnpm dlx degit josevc997/NuxtJumpstart yourAppName
+```
+
 ## Setup
 
 Make sure to install the dependencies:
