@@ -1,6 +1,74 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const useMain = useMainStore();
+const installedModules = [
+    {
+        name: "TailwindCSS",
+        icon: "logos:tailwindcss-icon",
+        image: null,
+        href: "https://tailwindcss.com",
+        example: null,
+        description: "tailwindDescription",
+    },
+    {
+        name: "HeadlessUI",
+        icon: "logos:headlessui-icon",
+        image: null,
+        href: "https://headlessui.com",
+        example: null,
+        description: "headlessDescription",
+    },
+    {
+        name: "NuxtAuth",
+        icon: null,
+        image: "nuxt-auth.webp",
+        href: "https://sidebase.io/nuxt-auth/v0.6/getting-started",
+        example: "/login",
+        description: "NuxtAuthDescription",
+    },
+    {
+        name: "Pinia",
+        icon: "logos:pinia",
+        image: null,
+        href: "https://pinia.vuejs.org",
+        example: null,
+        description: "PiniaDescription",
+    },
+    {
+        name: "NuxtIcon",
+        icon: null,
+        image: "nuxt-icon.webp",
+        href: "https://github.com/nuxt-modules/icon",
+        example: null,
+        description: "NuxtIconDescription",
+    },
+    {
+        name: "I18n",
+        icon: null,
+        image: "i18n.webp",
+        href: "https://v8.i18n.nuxtjs.org",
+        example: null,
+        description: "I18nDescription",
+    },
+    {
+        name: "Nuxt-Image",
+        icon: null,
+        image: "nuxt-image.webp",
+        href: "https://v1.image.nuxtjs.org",
+        example: null,
+        description: "NuxtImageDescription",
+    },
+    {
+        name: "Nuxt-Content",
+        icon: null,
+        image: "nuxt-content.webp",
+        href: "https://content.nuxtjs.org/",
+        example: "/docs",
+        description: "NuxtContentDescription",
+    },
+];
+</script>
 <template>
-    <div class="max-w-5xl mx-auto space-y-8 py-10">
+    <div class="max-w-5xl mx-auto space-y-8 py-10 px-4">
         <div class="mx-auto w-fit">
             <svg
                 width="61"
@@ -17,61 +85,24 @@
                 ></path>
             </svg>
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center items-baseline">
             <h1
-                class="text-transparent font-bold bg-clip-text bg-gradient-to-r from-green-400 to-sky-600 text-5xl"
+                class="text-transparent font-bold bg-clip-text bg-gradient-to-r from-green-400 to-sky-600 text-5xl text-center"
             >
                 NuxtJumpstart Template
             </h1>
         </div>
         <div class="grid-cols-2 grid gap-4">
-            <Card class="col-span-2">
-                A complete starter template with the next modules preinstalled.
-            </Card>
-            <Card class="flex items-center gap-4">
-                <div>
-                    <Icon name="logos:tailwindcss-icon" class="w-10 h-10" />
-                </div>
-                <div>TailwindCSS</div>
-            </Card>
-            <Card class="flex items-center gap-4">
-                <div>
-                    <Icon name="logos:headlessui-icon" class="w-10 h-10" />
-                </div>
-                <div>HeadlessUI</div>
-            </Card>
-            <NuxtLink to="/login">
-                <Card class="flex items-center gap-4">
-                    <div>
-                        <NuxtImg src="nuxt-auth.webp" width="40" height="40" />
-                    </div>
-                    <div>Nuxt-Auth</div>
-                </Card>
-            </NuxtLink>
-            <Card class="flex items-center gap-4">
-                <div>
-                    <NuxtImg src="nuxt-icon.webp" width="40" height="40" />
-                </div>
-                <div>NuxtIcon</div>
-            </Card>
-            <Card class="flex items-center gap-4">
-                <div>
-                    <NuxtImg src="i18n.webp" width="40" height="40" />
-                </div>
-                <div>I18n</div>
-            </Card>
-            <Card class="flex items-center gap-4">
-                <div>
-                    <NuxtImg src="nuxt-image.webp" width="40" height="40" />
-                </div>
-                <div>NuxtImage</div>
-            </Card>
-            <Card class="flex items-center gap-4">
-                <div>
-                    <NuxtImg src="nuxt-content.webp" width="40" height="40" />
-                </div>
-                <div>NuxtContent</div>
-            </Card>
+            <div class="col-span-2 bg-slate-700 p-6 rounded-lg">
+                {{ $t("generalDescription") }}
+            </div>
+
+            <Card
+                v-for="(item, index) in installedModules"
+                :key="index"
+                :item="item"
+                class="flex-col items-center col-span-2 md:col-span-1"
+            />
         </div>
     </div>
 </template>

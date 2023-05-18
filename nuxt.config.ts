@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         "@nuxtjs/i18n",
         "@sidebase/nuxt-auth",
         "@pinia/nuxt",
+        "@nuxt/devtools",
     ],
     // Optionally change the default prefix.
     headlessui: {
@@ -28,6 +29,7 @@ export default defineNuxtConfig({
                 driver: "fs",
                 prefix: "/docs", // All contents inside this source will be prefixed with `/docs`
                 base: path.resolve(__dirname, "content"),
+                dir: "content",
             },
         },
     },
@@ -38,7 +40,7 @@ export default defineNuxtConfig({
         /* module options */
     },
     auth: {
-        baseURL: "http://127.0.0.1:8000/api/auth/",
+        baseURL: "http://127.0.0.1:8000/api/users/",
         provider: {
             type: "local",
             endpoints: {
