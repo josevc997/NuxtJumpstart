@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         "nuxt-icon",
         "nuxt-headlessui",
         "@nuxt/content",
-        "@nuxt/image-edge",
+        "@nuxt/image",
         "@nuxtjs/i18n",
         "@sidebase/nuxt-auth",
         "@pinia/nuxt",
