@@ -1,64 +1,78 @@
 <script setup lang="ts">
 const user = reactive({ username: "", password: "" });
-const { status, signIn, signOut } = useAuth();
+const { signIn } = useAuth();
 const submitHandler = (e: any) => {
-    e.preventDefault();
-    signIn(user, { redirect: false });
+  e.preventDefault();
+  signIn(user, { callbackUrl: "/user" });
 };
+definePageMeta({ auth: false });
 </script>
 <template>
-    <div class="max-w-xl mx-auto h-screen grid items-center">
-        <div class="bg-slate-700 p-6 rounded-xl">
-            <form
-                class="grid grid-cols-1 gap-10"
-                @submit.prevent="submitHandler"
-                method="post"
-            >
-                <h1 class="text-center mt-1">{{ status }}</h1>
-                <div class="space-y-1 text-lg">
-                    <label for="username">username:</label>
-                    <input
-                        type="text"
-                        v-model="user.username"
-                        class="w-full mt-1 rounded px-2 pb-1 text-slate-700"
-                        placeholder="fokillq"
-                        required
-                    />
-                </div>
-                <div class="space-y-1 text-lg">
-                    <label for="password">password:</label>
-                    <input
-                        type="password"
-                        v-model="user.password"
-                        class="w-full mt-1 rounded px-2 pb-1 text-slate-700"
-                        placeholder="xZnWSWnqH"
-                        required
-                    />
-                </div>
-                <div class="text-lg">
-                    <button
-                        v-if="status === 'unauthenticated'"
-                        class="w-full bg-green-400 hover:bg-green-500 rounded-lg px-2 py-1 text-green-50"
-                        type="submit"
-                    >
-                        Sign in
-                    </button>
-                    <button
-                        v-else
-                        @click="signOut({ redirect: false })"
-                        class="w-full bg-red-400 hover:bg-red-500 rounded-lg px-2 py-1"
-                    >
-                        Sign out
-                    </button>
-                    <NuxtLink to="/">
-                        <button
-                            class="w-full border border-slate-400 hover:bg-slate-400 rounded-lg px-2 py-1 mt-4"
-                        >
-                            Back
-                        </button>
-                    </NuxtLink>
-                </div>
-            </form>
-        </div>
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img
+        class="mx-auto h-10 w-auto"
+        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+        alt="Your Company"
+      />
+      <h2
+        class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+      >
+        Sign in to your account
+      </h2>
     </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form class="space-y-6" @submit.prevent="submitHandler" method="post">
+        <div>
+          <label
+            for="username"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Username</label
+          >
+          <div class="mt-2">
+            <input
+              id="username"
+              name="username"
+              type="username"
+              autocomplete="username"
+              required
+              v-model="user.username"
+              class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label
+              for="password"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Password</label
+            >
+          </div>
+          <div class="mt-2">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              v-model="user.password"
+              autocomplete="current-password"
+              required
+              class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Sign in
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
