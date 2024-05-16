@@ -27,6 +27,8 @@
   "type": "module",
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "@vee-validate/nuxt": "^4.12.8",
+    "@vee-validate/yup": "^4.12.8",
     "pinia": "^2.1.7"
   },
   "prettier": {

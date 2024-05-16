@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { UserWithNames } from "~/types/user";
+import type { GenericValidateFunction } from "vee-validate/dist/vee-validate";
+import * as yup from "yup";
 
 const { token } = useAuth();
 
@@ -15,6 +16,23 @@ const userFormData = ref({
 });
 
 const file = ref("");
+const validateEmail = yup.string().required().email();
+const validateText = yup.string().required().min(3);
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const validatePassword = yup.string().required().matches(passwordRegex, {
+  message:
+    "Password must contain at least 8 characters, one letter and one number",
+});
+
+const bothPasswordEquals: GenericValidateFunction = (value) => {
+  const isValid = userFormData.value.password === userFormData.value.password2;
+  if (!isValid) {
+    return "Passwords must match";
+  } else if (typeof value === "string" && !passwordRegex.test(value)) {
+    return "Password must contain at least 8 characters, one letter and one number";
+  }
+  return isValid;
+};
 
 const onChange = async (event: any) => {
   userFormData.value.image = event.target.files[0];
@@ -48,7 +66,7 @@ const handleSubmit = async () => {
       </p>
     </div>
 
-    <form class="md:col-span-2" @submit.prevent="handleSubmit" method="post">
+    <Form class="md:col-span-2" @submit.prevent="handleSubmit" method="post">
       <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
         <div class="col-span-full flex items-center gap-x-8">
           <NuxtImg
@@ -82,125 +100,178 @@ const handleSubmit = async () => {
         </div>
 
         <div class="sm:col-span-3">
-          <label
-            for="first-name"
-            class="block text-sm font-medium leading-6 text-neutral-700"
-            >First name</label
+          <Field
+            type="text"
+            name="first-name"
+            :rules="validateText"
+            v-model="userFormData.first_name"
+            v-slot="{ field, errors, meta }"
+            label="First name"
           >
-          <div class="mt-2">
+            <label
+              for="first-name"
+              class="block text-sm font-medium leading-6 text-neutral-700"
+              >First name</label
+            >
             <input
-              type="text"
-              name="first-name"
-              id="first-name"
-              autocomplete="given-name"
-              class="block w-full rounded-md border-0 bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-              v-model="userFormData.first_name"
+              v-bind="field"
+              placeholder="First name"
+              class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              :class="[
+                errors.length > 0 && meta.touched
+                  ? 'border-1 border-red-500'
+                  : 'border-0',
+              ]"
             />
-          </div>
+            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
+              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            </ul>
+          </Field>
         </div>
-
         <div class="sm:col-span-3">
-          <label
-            for="last-name"
-            class="block text-sm font-medium leading-6 text-neutral-700"
-            >Last name</label
+          <Field
+            type="text"
+            name="last-name"
+            :rules="validateText"
+            v-model="userFormData.last_name"
+            v-slot="{ field, errors, meta }"
+            label="Last name"
           >
-          <div class="mt-2">
+            <label
+              for="last-name"
+              class="block text-sm font-medium leading-6 text-neutral-700"
+              >Last name</label
+            >
             <input
-              type="text"
-              name="last-name"
-              id="last-name"
-              autocomplete="family-name"
-              class="block w-full rounded-md border-0 bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-              v-model="userFormData.last_name"
-              required
+              v-bind="field"
+              placeholder="Last name"
+              class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              :class="[
+                errors.length > 0 && meta.touched
+                  ? 'border-1 border-red-500'
+                  : 'border-0',
+              ]"
             />
-          </div>
+            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
+              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            </ul>
+          </Field>
         </div>
-
         <div class="col-span-full">
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-neutral-700"
-            >Email address</label
+          <Field
+            type="email"
+            name="email"
+            :rules="validateEmail"
+            v-model="userFormData.email"
+            v-slot="{ field, errors, meta }"
+            label="email"
           >
-          <div class="mt-2">
+            <label
+              for="email"
+              class="block text-sm font-medium leading-6 text-neutral-700"
+              >Email</label
+            >
             <input
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              class="block w-full rounded-md border-0 bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-              v-model="userFormData.email"
+              v-bind="field"
+              placeholder="email@example.com"
+              class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              :class="[
+                errors.length > 0 && meta.touched
+                  ? 'border-1 border-red-500'
+                  : 'border-0',
+              ]"
             />
-          </div>
+            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
+              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            </ul>
+          </Field>
         </div>
-
         <div class="col-span-full">
-          <label
-            for="username"
-            class="block text-sm font-medium leading-6 text-neutral-700"
-            >Username</label
+          <Field
+            type="text"
+            name="username"
+            :rules="validateText"
+            v-model="userFormData.username"
+            v-slot="{ field, errors, meta }"
+            label="username"
           >
-          <div class="mt-2">
-            <div
-              class="flex rounded-md bg-neutral-50 ring-1 ring-inset ring-neutral-600/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+            <label
+              for="username"
+              class="block text-sm font-medium leading-6 text-neutral-700"
+              >Username</label
             >
-              <input
-                type="text"
-                name="username"
-                id="username"
-                autocomplete="username"
-                class="flex-1 border-0 bg-transparent px-2 py-1.5 text-neutral-700 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="username"
-                v-model="userFormData.username"
-              />
-            </div>
-          </div>
+            <input
+              v-bind="field"
+              class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              placeholder="Username"
+              :class="[
+                errors.length > 0 && meta.touched
+                  ? 'border-1 border-red-500'
+                  : 'border-0',
+              ]"
+            />
+            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
+              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            </ul>
+          </Field>
         </div>
-        <div class="sm:col-span-3">
-          <label
-            for="password"
-            class="block text-sm font-medium leading-6 text-neutral-700"
-            >Password</label
+        <div class="col-span-3">
+          <Field
+            type="password"
+            name="password"
+            :rules="validatePassword"
+            v-model="userFormData.password"
+            v-slot="{ field, errors, meta }"
+            label="password"
           >
-          <div class="mt-2">
-            <div
-              class="flex rounded-md bg-neutral-50 ring-1 ring-inset ring-neutral-600/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+            <label
+              for="password"
+              class="block text-sm font-medium leading-6 text-neutral-700"
+              >Password</label
             >
-              <input
-                type="password"
-                name="password"
-                id="password"
-                autocomplete="password"
-                class="flex-1 border-0 bg-transparent px-2 py-1.5 text-neutral-700 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="*****"
-                v-model="userFormData.password"
-              />
-            </div>
-          </div>
+            <input
+              v-bind="field"
+              class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              placeholder="*****"
+              :class="[
+                errors.length > 0 && meta.touched
+                  ? 'border-1 border-red-500'
+                  : 'border-0',
+              ]"
+            />
+            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
+              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            </ul>
+          </Field>
         </div>
-        <div class="sm:col-span-3">
-          <label
-            for="password2"
-            class="block text-sm font-medium leading-6 text-neutral-700"
-            >Repeat Password</label
+        <div class="col-span-3">
+          <Field
+            type="password"
+            name="password2"
+            :rules="bothPasswordEquals"
+            v-model="userFormData.password2"
+            v-slot="{ field, errors, meta }"
+            label="password2"
           >
-          <div class="mt-2">
-            <div
-              class="flex rounded-md bg-neutral-50 ring-1 ring-inset ring-neutral-600/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+            <label
+              for="username"
+              class="block text-sm font-medium leading-6 text-neutral-700"
+              >Repeat Password</label
             >
-              <input
-                type="text"
-                name="password2"
-                id="password2"
-                autocomplete="password2"
-                class="flex-1 border-0 bg-transparent px-2 py-1.5 text-neutral-700 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="****"
-                v-model="userFormData.password2"
-              />
-            </div>
-          </div>
+            <input
+              v-bind="field"
+              class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              placeholder="*****"
+              :class="[
+                errors.length > 0 && meta.touched
+                  ? 'border-1 border-red-500'
+                  : 'border-0',
+              ]"
+            />
+            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
+              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            </ul>
+          </Field>
         </div>
       </div>
 
@@ -212,6 +283,6 @@ const handleSubmit = async () => {
           Save
         </button>
       </div>
-    </form>
+    </Form>
   </div>
 </template>

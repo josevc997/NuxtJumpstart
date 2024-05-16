@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxt/devtools",
     "@sidebase/nuxt-auth",
+    "@vee-validate/nuxt",
   ],
   devtools: { enabled: true },
   // Optionally change the default prefix.
@@ -71,5 +72,9 @@ export default defineNuxtConfig({
       enableRefreshPeriodically: false,
     },
     globalAppMiddleware: true,
+  },
+  veeValidate: {
+    // disable or enable auto imports
+    autoImports: true,
   },
 });
