@@ -64,7 +64,7 @@ const { data: userList, status } = useFetch<User[]>(
                       v-if="person.image"
                       class="h-11 w-11 rounded-full"
                       :src="person.image"
-                      :alt="person.image"
+                      :alt="person.name"
                     />
                     <p
                       v-else
@@ -87,9 +87,6 @@ const { data: userList, status } = useFetch<User[]>(
                 <div class="text-neutral-600">
                   {{ person.isAdmin ? "Admin" : "Member" }}
                 </div>
-                <!-- <div class="mt-1 text-neutral-500">
-                                    {{ person. }}
-                                </div> -->
               </td>
               <td class="whitespace-nowrap px-3 py-5 text-sm text-neutral-500">
                 <span

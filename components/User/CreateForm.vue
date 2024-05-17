@@ -42,7 +42,7 @@ const onChange = async (event: any) => {
 };
 
 const handleSubmit = async () => {
-  const { data, pending, error, refresh } = useAsyncData("user2", () =>
+  useAsyncData("user2", () =>
     $fetch(`http://127.0.0.1:8000/api/users/`, {
       headers: {
         authorization: `${token.value}`,
@@ -77,12 +77,6 @@ const handleSubmit = async () => {
             "
             class="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover"
           />
-          <!-- <input
-            type="file"
-            accept=".jpg,.jpeg,.png,image/jpeg"
-            @change="onChange"
-            class="bg-red-200"
-          /> -->
           <label
             for="file-upload"
             class="cursor-pointer rounded-md bg-neutral-100/10 px-3 py-2 text-sm font-semibold text-neutral-700 shadow-sm ring-1 ring-neutral-900/20 hover:bg-neutral-300/20"

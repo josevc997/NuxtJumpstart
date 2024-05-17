@@ -4,7 +4,6 @@ import type { UserWithNames } from "~/types/user";
 const route = useRoute();
 const { token } = useAuth();
 
-// const user = useState("user");
 const { data: user, status } = useFetch<UserWithNames>(
   `http://127.0.0.1:8000/api/users/${route.params.id}/`,
   {
@@ -47,8 +46,5 @@ const handleSubmit = async (userFormData: any) => {
       @handle-submit="handleSubmit"
       :user="user"
     />
-    <!-- <UserChangePasswordForm />
-        <UserLogoutSessionsForm />
-        <UserDeleteAccountForm /> -->
   </div>
 </template>
