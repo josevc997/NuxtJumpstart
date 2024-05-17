@@ -34,7 +34,7 @@ definePageMeta({ auth: false });
             <input
               id="username"
               name="username"
-              type="username"
+              type="text"
               autocomplete="current-username"
               required
               v-model="user.username"
