@@ -1,17 +1,21 @@
 <script lang="ts" setup>
+import type { NuxtError } from "#app";
 import type { UserWithNames } from "~/types/user";
 
+const config = useRuntimeConfig();
 const route = useRoute();
 const { token } = useAuth();
 
 const { data: user, status } = useFetch<UserWithNames>(
-  `http://127.0.0.1:8000/api/users/${route.params.id}/`,
+  `${config.public.backendUrl}/api/users/${route.params.id}/`,
   {
     headers: {
       authorization: `${token.value}`,
     },
   },
 );
+
+const submitError = ref(null as NuxtError<{ detail: string }> | null);
 
 const handleSubmit = async (userFormData: any) => {
   const newFormData = new FormData();
@@ -24,18 +28,29 @@ const handleSubmit = async (userFormData: any) => {
   if (userFormData.image) {
     newFormData.append("image", userFormData.image);
   }
-  const response = await $fetch<UserWithNames>(
-    `http://127.0.0.1:8000/api/users/${route.params.id}/`,
-    {
-      headers: {
-        authorization: `${token.value}`,
-        Accept: "*/*",
+  const {
+    data: response,
+    error,
+    status,
+  } = await useAsyncData("userUpdate", () =>
+    $fetch<UserWithNames>(
+      `${config.public.backendUrl}/api/users/${route.params.id}/`,
+      {
+        headers: {
+          authorization: `${token.value}`,
+          Accept: "*/*",
+        },
+        method: "POST",
+        body: newFormData,
       },
-      method: "POST",
-      body: newFormData,
-    },
+    ),
   );
-  user.value = response;
+  if (error.value) {
+    submitError.value = error.value as NuxtError<{ detail: string }>;
+  } else {
+    submitError.value = null;
+    user.value = response.value;
+  }
 };
 </script>
 
@@ -45,6 +60,7 @@ const handleSubmit = async (userFormData: any) => {
       v-if="user"
       @handle-submit="handleSubmit"
       :user="user"
+      :error="submitError"
     />
   </div>
 </template>

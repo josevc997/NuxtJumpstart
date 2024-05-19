@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { User } from "~/types/user";
+
+const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
 const { data: userList, status } = useFetch<User[]>(
-  "http://127.0.0.1:8000/api/users/",
+  `${config.public.backendUrl}/api/users/`,
   {
     headers: {
       authorization: `${token.value}`,

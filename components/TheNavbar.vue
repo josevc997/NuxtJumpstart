@@ -1,13 +1,20 @@
 <script setup>
-//   import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-
-const navigation = [
-  { name: "Users", href: "/user", protected: true },
-  // { name: 'Team', href: '#', current: false },
-  // { name: 'Projects', href: '#', current: false },
-  // { name: 'Calendar', href: '#', current: false },
-];
+const NuxtLink = resolveComponent("nuxt-link");
+const navigation = [{ name: "Users", href: "/user", protected: true }];
 const { status, data, signOut } = useAuth();
+const config = useRuntimeConfig();
+
+const profileImage = computed(() => {
+  if (data.value) {
+    let userImage = data.value.image;
+    if (userImage && userImage[0] === "/") {
+      userImage = `${config.public.backendUrl}${userImage}`;
+    } else if (userImage && userImage[0] !== "/") {
+      userImage = userImage;
+    }
+    return userImage;
+  }
+});
 
 const logout = () => {
   signOut({ callbackUrl: "/login", redirect: true });
@@ -30,6 +37,7 @@ const isAuthenticated = computed(() => {
           <DisclosureButton
             class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
           >
+            <Icon name="heroicons:bars-3" class="size-6" />
             <span class="absolute -inset-0.5" />
             <span class="sr-only">Open main menu</span>
           </DisclosureButton>
@@ -86,7 +94,7 @@ const isAuthenticated = computed(() => {
                 <span class="sr-only">Open user menu</span>
                 <NuxtImg
                   class="h-8 w-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  :src="profileImage"
                   alt="Profile Image"
                   format="webp"
                 />
@@ -150,8 +158,8 @@ const isAuthenticated = computed(() => {
         <DisclosureButton
           v-for="item in navigation"
           :key="item.name"
-          as="a"
-          :href="item.href"
+          :as="NuxtLink"
+          :to="item.href"
           :class="[
             item.current ? '' : '',
             'block rounded-md px-3 py-2 text-base font-medium',

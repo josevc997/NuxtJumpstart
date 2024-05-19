@@ -1,11 +1,25 @@
 <script setup lang="ts">
 import type { UserWithNames } from "~/types/user";
+import * as yup from "yup";
+import type { NuxtError } from "#app";
+
+const config = useRuntimeConfig();
 
 const props = defineProps<{
   user: UserWithNames;
+  error: NuxtError<{ detail: string }> | null;
 }>();
 
 const file = ref("");
+
+const computedImage = computed(() => {
+  if (file.value) {
+    return file.value;
+  } else if (userData.image) {
+    return `${config.public.backendUrl}${userData.image}`;
+  }
+  return "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+});
 
 const onChange = async (event: any) => {
   const newImage = event.target.files[0];
@@ -16,7 +30,7 @@ const onChange = async (event: any) => {
   }
 };
 
-const { token } = useAuth();
+const validateText = yup.string().required().min(3);
 
 const emits = defineEmits(["handleSubmit"]);
 
@@ -41,6 +55,7 @@ const canSubmit = computed(() => {
 
 const handleSubmit = () => {
   emits("handleSubmit", userFormData.value);
+
   userFormData.value.image = null;
 };
 </script>
@@ -57,17 +72,11 @@ const handleSubmit = () => {
       </p>
     </div>
 
-    <form class="md:col-span-2" @submit.prevent="handleSubmit" method="post">
+    <Form class="md:col-span-2" @submit="handleSubmit" method="post">
       <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
         <div class="col-span-full flex items-center gap-x-8">
           <NuxtImg
-            :src="
-              file
-                ? file
-                : userData.image
-                  ? `http://localhost:8000${userData.image}`
-                  : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-            "
+            :src="computedImage"
             alt="Profile image"
             format="webp"
             class="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover"
@@ -100,14 +109,38 @@ const handleSubmit = () => {
             >First name</label
           >
           <div class="mt-2">
-            <input
+            <Field
+              v-model="userFormData.first_name"
               type="text"
               name="first-name"
-              id="first-name"
-              autocomplete="given-name"
-              class="block w-full rounded-md border-0 bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-              v-model="userFormData.first_name"
-            />
+              :rules="validateText"
+              v-slot="{ field, errors, meta }"
+            >
+              <input
+                autocomplete="given-name"
+                class="block w-full rounded-md bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                :class="[
+                  errors.length > 0 && meta.touched
+                    ? 'border-1 border-red-500'
+                    : 'border-0',
+                ]"
+                v-bind="field"
+              />
+              <ul
+                v-if="errors.length > 0 && meta.touched"
+                class="text-xs text-red-600"
+              >
+                <li class="mt-1 inline-flex">
+                  <span>
+                    <Icon
+                      name="heroicons:exclamation-circle-16-solid"
+                      class="-mt-1 mr-1 size-4"
+                    />
+                  </span>
+                  {{ errors[0] }}
+                </li>
+              </ul>
+            </Field>
           </div>
         </div>
 
@@ -118,15 +151,39 @@ const handleSubmit = () => {
             >Last name</label
           >
           <div class="mt-2">
-            <input
-              type="text"
+            <Field
               name="last-name"
-              id="last-name"
-              autocomplete="family-name"
-              class="block w-full rounded-md border-0 bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              type="text"
               v-model="userFormData.last_name"
-              required
-            />
+              :rules="validateText"
+              v-slot="{ field, errors, meta }"
+            >
+              <input
+                autocomplete="family-name"
+                class="block w-full rounded-md bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                :class="[
+                  errors.length > 0 && meta.touched
+                    ? 'border-1 border-red-500'
+                    : 'border-0',
+                ]"
+                v-bind="field"
+                required
+              />
+              <ul
+                v-if="errors.length > 0 && meta.touched"
+                class="text-xs text-red-600"
+              >
+                <li class="mt-1 inline-flex">
+                  <span>
+                    <Icon
+                      name="heroicons:exclamation-circle-16-solid"
+                      class="-mt-1 mr-1 size-4"
+                    />
+                  </span>
+                  {{ errors[0] }}
+                </li>
+              </ul>
+            </Field>
           </div>
         </div>
 
@@ -174,6 +231,10 @@ const handleSubmit = () => {
         </div>
       </div>
 
+      <UIAlert v-if="error" type="error" class="mt-8">
+        {{ error.data?.detail }}
+      </UIAlert>
+
       <div class="col-span-full mt-8 flex justify-end sm:max-w-xl">
         <button
           type="submit"
@@ -183,6 +244,6 @@ const handleSubmit = () => {
           Save
         </button>
       </div>
-    </form>
+    </Form>
   </div>
 </template>

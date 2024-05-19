@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { GenericValidateFunction } from "vee-validate/dist/vee-validate";
 import * as yup from "yup";
+import type { NuxtError } from "#app";
 
+const config = useRuntimeConfig();
 const { token } = useAuth();
 
 const userFormData = ref({
@@ -41,23 +43,49 @@ const onChange = async (event: any) => {
   }
 };
 
+const requestError = ref(null as null | NuxtError<{ detail: string }>);
+
 const handleSubmit = async () => {
-  useAsyncData("user2", () =>
-    $fetch(`http://127.0.0.1:8000/api/users/`, {
+  const formData = new FormData();
+  if (userFormData.value.first_name) {
+    formData.append("first_name", userFormData.value.first_name);
+  }
+  if (userFormData.value.last_name) {
+    formData.append("last_name", userFormData.value.last_name);
+  }
+  if (userFormData.value.email) {
+    formData.append("email", userFormData.value.email);
+  }
+  if (userFormData.value.username) {
+    formData.append("username", userFormData.value.username);
+  }
+  if (userFormData.value.password) {
+    formData.append("password", userFormData.value.password);
+  }
+  if (userFormData.value.image) {
+    formData.append("image", userFormData.value.image);
+  }
+  const { error } = await useAsyncData("user2", () =>
+    $fetch(`${config.public.backendUrl}/api/users/`, {
       headers: {
         authorization: `${token.value}`,
       },
       method: "POST",
-      body: userFormData.value,
+      body: formData,
     }),
   );
+  if (error.value) {
+    requestError.value = error.value as NuxtError<{ detail: string }>;
+  } else {
+    requestError.value = null;
+  }
 };
 </script>
 <template>
   <div
     class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
   >
-    <div>
+    <div class="col-span-1">
       <h2 class="text-base font-semibold leading-7 text-neutral-700">
         Personal Information
       </h2>
@@ -66,9 +94,9 @@ const handleSubmit = async () => {
       </p>
     </div>
 
-    <Form class="md:col-span-2" @submit.prevent="handleSubmit" method="post">
-      <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-        <div class="col-span-full flex items-center gap-x-8">
+    <Form class="col-span-1 md:col-span-2" @submit="handleSubmit" method="post">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:max-w-xl sm:grid-cols-6">
+        <div class="col-span-6 flex items-center gap-x-8">
           <NuxtImg
             :src="
               file
@@ -93,7 +121,7 @@ const handleSubmit = async () => {
           </label>
         </div>
 
-        <div class="sm:col-span-3">
+        <div class="col-span-6 sm:col-span-3">
           <Field
             type="text"
             name="first-name"
@@ -117,12 +145,23 @@ const handleSubmit = async () => {
                   : 'border-0',
               ]"
             />
-            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
-              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            <ul
+              v-if="errors.length > 0 && meta.touched"
+              class="text-xs text-red-600"
+            >
+              <li class="mt-1 inline-flex">
+                <span>
+                  <Icon
+                    name="heroicons:exclamation-circle-16-solid"
+                    class="-mt-1 mr-1 size-4"
+                  />
+                </span>
+                {{ errors[0] }}
+              </li>
             </ul>
           </Field>
         </div>
-        <div class="sm:col-span-3">
+        <div class="col-span-6 sm:col-span-3">
           <Field
             type="text"
             name="last-name"
@@ -146,12 +185,23 @@ const handleSubmit = async () => {
                   : 'border-0',
               ]"
             />
-            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
-              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            <ul
+              v-if="errors.length > 0 && meta.touched"
+              class="text-xs text-red-600"
+            >
+              <li class="mt-1 inline-flex">
+                <span>
+                  <Icon
+                    name="heroicons:exclamation-circle-16-solid"
+                    class="-mt-1 mr-1 size-4"
+                  />
+                </span>
+                {{ errors[0] }}
+              </li>
             </ul>
           </Field>
         </div>
-        <div class="col-span-full">
+        <div class="col-span-6">
           <Field
             type="email"
             name="email"
@@ -175,12 +225,23 @@ const handleSubmit = async () => {
                   : 'border-0',
               ]"
             />
-            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
-              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            <ul
+              v-if="errors.length > 0 && meta.touched"
+              class="text-xs text-red-600"
+            >
+              <li class="mt-1 inline-flex">
+                <span>
+                  <Icon
+                    name="heroicons:exclamation-circle-16-solid"
+                    class="-mt-1 mr-1 size-4"
+                  />
+                </span>
+                {{ errors[0] }}
+              </li>
             </ul>
           </Field>
         </div>
-        <div class="col-span-full">
+        <div class="col-span-6">
           <Field
             type="text"
             name="username"
@@ -204,12 +265,23 @@ const handleSubmit = async () => {
                   : 'border-0',
               ]"
             />
-            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
-              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            <ul
+              v-if="errors.length > 0 && meta.touched"
+              class="text-xs text-red-600"
+            >
+              <li class="mt-1 inline-flex">
+                <span>
+                  <Icon
+                    name="heroicons:exclamation-circle-16-solid"
+                    class="-mt-1 mr-1 size-4"
+                  />
+                </span>
+                {{ errors[0] }}
+              </li>
             </ul>
           </Field>
         </div>
-        <div class="col-span-3">
+        <div class="col-span-6 sm:col-span-3">
           <Field
             type="password"
             name="password"
@@ -233,12 +305,23 @@ const handleSubmit = async () => {
                   : 'border-0',
               ]"
             />
-            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
-              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            <ul
+              v-if="errors.length > 0 && meta.touched"
+              class="text-xs text-red-600"
+            >
+              <li class="mt-1 inline-flex">
+                <span>
+                  <Icon
+                    name="heroicons:exclamation-circle-16-solid"
+                    class="-mt-1 mr-1 size-4"
+                  />
+                </span>
+                {{ errors[0] }}
+              </li>
             </ul>
           </Field>
         </div>
-        <div class="col-span-3">
+        <div class="col-span-6 sm:col-span-3">
           <Field
             type="password"
             name="password2"
@@ -262,12 +345,27 @@ const handleSubmit = async () => {
                   : 'border-0',
               ]"
             />
-            <ul v-if="errors && meta.touched" class="text-xs text-red-600">
-              <li v-for="errorItem in errors">{{ errorItem }}</li>
+            <ul
+              v-if="errors.length > 0 && meta.touched"
+              class="text-xs text-red-600"
+            >
+              <li class="mt-1 inline-flex">
+                <span>
+                  <Icon
+                    name="heroicons:exclamation-circle-16-solid"
+                    class="-mt-1 mr-1 size-4"
+                  />
+                </span>
+                {{ errors[0] }}
+              </li>
             </ul>
           </Field>
         </div>
       </div>
+
+      <UIAlert v-if="requestError" type="error" class="mt-8">
+        {{ requestError.data?.detail }}
+      </UIAlert>
 
       <div class="col-span-full mt-8 flex justify-end sm:max-w-xl">
         <button

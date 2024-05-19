@@ -1,4 +1,3 @@
-const path = require("path");
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -7,6 +6,12 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
+    },
+  },
+  runtimeConfig: {
+    backendUrl: "",
+    public: {
+      backendUrl: "",
     },
   },
   modules: [
@@ -41,7 +46,7 @@ export default defineNuxtConfig({
     ],
   },
   auth: {
-    baseURL: "http://127.0.0.1:8000/api/users",
+    baseURL: `${process.env.NUXT_BACKEND_URL}/api/users`,
     provider: {
       type: "local",
       pages: {
