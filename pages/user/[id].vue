@@ -4,6 +4,8 @@ import type { UserWithNames } from "~/types/user";
 
 const config = useRuntimeConfig();
 const route = useRoute();
+const router = useRouter();
+const mainStore = useMainStore();
 const { token } = useAuth();
 
 const { data: user, status } = useFetch<UserWithNames>(
@@ -50,6 +52,11 @@ const handleSubmit = async (userFormData: any) => {
   } else {
     submitError.value = null;
     user.value = response.value;
+    mainStore.addToastMessage({
+      message: "User modified succesfully",
+      type: "success",
+    });
+    router.push("/user");
   }
 };
 </script>

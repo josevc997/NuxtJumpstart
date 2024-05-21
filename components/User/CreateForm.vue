@@ -5,6 +5,8 @@ import type { NuxtError } from "#app";
 
 const config = useRuntimeConfig();
 const { token } = useAuth();
+const router = useRouter();
+const mainStore = useMainStore();
 
 const userFormData = ref({
   first_name: "",
@@ -78,6 +80,11 @@ const handleSubmit = async () => {
     requestError.value = error.value as NuxtError<{ detail: string }>;
   } else {
     requestError.value = null;
+    mainStore.addToastMessage({
+      message: "User created succesfully",
+      type: "success",
+    });
+    router.push("/user");
   }
 };
 </script>
@@ -299,6 +306,7 @@ const handleSubmit = async () => {
               v-bind="field"
               class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               placeholder="*****"
+              type="password"
               :class="[
                 errors.length > 0 && meta.touched
                   ? 'border-1 border-red-500'
@@ -337,6 +345,7 @@ const handleSubmit = async () => {
             >
             <input
               v-bind="field"
+              type="password"
               class="mt-2 block w-full rounded-md bg-neutral-50 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               placeholder="*****"
               :class="[

@@ -1,7 +1,9 @@
+<script setup lang="ts"></script>
 <template>
-    <div>
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
-    </div>
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+      <UIToast />
+    </NuxtLayout>
+  </div>
 </template>
