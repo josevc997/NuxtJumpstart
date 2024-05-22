@@ -13,7 +13,7 @@ const { data: userList, status } = useFetch<User[]>(
 );
 </script>
 <template>
-  <div v-if="userData?.isAdmin" class="mt-2 flex justify-end">
+  <div v-if="userData?.isAdmin" class="mb-4 mt-4 flex justify-end">
     <NuxtLink
       to="/user/create/"
       class="inline-flex items-center gap-1 rounded bg-indigo-700 px-2 py-1 text-sm font-medium text-white hover:shadow-md hover:shadow-indigo-700/30"
