@@ -31,14 +31,23 @@ const getIconTypes = (type: string) => {
 };
 </script>
 <template>
-  <div class="fixed bottom-4 right-4 grid gap-2">
+  <div
+    class="fixed bottom-0 right-0 grid w-full grid-cols-1 justify-items-end gap-2 p-4"
+  >
     <div
       v-for="(message, index) in messageList"
-      class="flex items-center gap-1 rounded border p-2 text-xs font-medium"
+      class="flex w-fit items-start gap-2 rounded border p-2 text-sm"
       :class="getColorTypes(message.type)"
     >
-      <Icon :name="getIconTypes(message.type)" class="size-4" />
-      <p>{{ message.message }}</p>
+      <div>
+        <Icon :name="getIconTypes(message.type)" class="size-6" />
+      </div>
+      <div class="pr-12">
+        <h3 class="block w-max flex-grow text-base font-medium capitalize">
+          {{ message.type }}
+        </h3>
+        <p>{{ message.message }}</p>
+      </div>
     </div>
   </div>
 </template>
