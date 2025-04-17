@@ -58,6 +58,8 @@ const installedModules = [
     description: "NuxtImageDescription",
   },
 ];
+
+const { t, locales } = useI18n();
 definePageMeta({ auth: false });
 </script>
 <template>
@@ -89,7 +91,7 @@ definePageMeta({ auth: false });
       <div
         class="col-span-2 rounded-lg bg-neutral-100 p-6 font-medium text-neutral-600 ring-1 ring-neutral-300/50"
       >
-        {{ $t("generalDescription") }}
+        {{ t("generalDescription") }}
       </div>
 
       <Card

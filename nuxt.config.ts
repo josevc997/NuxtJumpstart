@@ -1,21 +1,20 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   ssr: false,
   css: ["~/assets/css/main.css"],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
+  vite: {
+    plugins: [tailwindcss()],
   },
+
   runtimeConfig: {
     backendUrl: "",
     public: {
       backendUrl: "",
     },
   },
+
   modules: [
-    "nuxt-icon",
     "nuxt-headlessui",
     "@nuxt/image",
     "@nuxtjs/i18n",
@@ -23,21 +22,39 @@ export default defineNuxtConfig({
     "@nuxt/devtools",
     "@sidebase/nuxt-auth",
     "@vee-validate/nuxt",
+    "shadcn-nuxt",
+    "@nuxt/icon",
   ],
+
   devtools: { enabled: true },
+
   // Optionally change the default prefix.
   headlessui: {
     prefix: "",
   },
+
   image: {
     dir: "assets/img",
   },
+
   i18n: {
     /* module options */
+    locales: [
+      {
+        code: "en",
+        file: "./en.json",
+      },
+      {
+        code: "es",
+        file: "./es.json",
+      },
+    ],
   },
+
   imports: {
     dirs: ["./stores"],
   },
+
   pinia: {
     autoImports: [
       // automatically imports `defineStore`
@@ -45,6 +62,7 @@ export default defineNuxtConfig({
       ["defineStore", "definePiniaStore"], // import { defineStore as definePiniaStore } from 'pinia'
     ],
   },
+
   auth: {
     baseURL: `${process.env.NUXT_BACKEND_URL}/api/users`,
     provider: {
@@ -78,8 +96,22 @@ export default defineNuxtConfig({
     },
     globalAppMiddleware: true,
   },
+
   veeValidate: {
     // disable or enable auto imports
     autoImports: true,
   },
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: "",
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: "./components/ui",
+  },
+
+  compatibilityDate: "2025-04-15",
 });

@@ -1,0 +1,11 @@
+{
+  "generalDescription": "A complete starter template with the next modules preinstalled.",
+  "tailwindDescription": "A utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup.",
+  "headlessDescription": "Completely unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS.",
+  "NuxtAuthDescription": "nuxt-auth is an open source Nuxt module that provides authentication for Nuxt 3 applications.",
+  "PiniaDescription": "The intuitive store for Vue.js. Type Safe, Extensible, and Modular by design. Forget you are even using a store.",
+  "NuxtIconDescription": "Add 100,000+ ready to use icons to your Nuxt application, based on Iconify.",
+  "I18nDescription": "i18next is an internationalization-framework written in and for JavaScript. But it's much more than that!",
+  "NuxtImageDescription": "Plug-and-play image optimization for Nuxt apps. Resize and transform your images using built-in optimizer or your favorite images CDN.",
+  "NuxtContentDescription": "Nuxt Content reads the content/ directory in your project, parses .md, .yml, .csv and .json files to create a powerful data layer for your application. Use Vue components in Markdown with the MDC syntax."
+}

@@ -16,7 +16,7 @@ defineProps<{
   >
     <div>
       <div class="flex gap-4">
-        <Icon v-if="item.icon" :name="item.icon" class="h-10 w-10" />
+        <Icon v-if="item.icon" :name="item.icon" class="!size-10" />
         <NuxtImg v-if="item.image" :src="item.image" class="h-10 w-10" />
         <div class="text-3xl font-bold tracking-wide text-neutral-800">
           {{ item.name }}

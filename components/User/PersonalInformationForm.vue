@@ -64,7 +64,7 @@ const handleSubmit = () => {
     class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
   >
     <div>
-      <h2 class="text-base font-semibold leading-7 text-neutral-700">
+      <h2 class="text-base leading-7 font-semibold text-neutral-700">
         Personal Information
       </h2>
       <p class="mt-1 text-sm leading-6 text-gray-400">
@@ -105,7 +105,7 @@ const handleSubmit = () => {
         <div class="sm:col-span-3">
           <label
             for="first-name"
-            class="block text-sm font-medium leading-6 text-neutral-700"
+            class="block text-sm leading-6 font-medium text-neutral-700"
             >First name</label
           >
           <div class="mt-2">
@@ -118,7 +118,7 @@ const handleSubmit = () => {
             >
               <input
                 autocomplete="given-name"
-                class="block w-full rounded-md bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                class="block w-full rounded-md bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-neutral-600/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-inset sm:text-sm sm:leading-6"
                 :class="[
                   errors.length > 0 && meta.touched
                     ? 'border-1 border-red-500'
@@ -147,7 +147,7 @@ const handleSubmit = () => {
         <div class="sm:col-span-3">
           <label
             for="last-name"
-            class="block text-sm font-medium leading-6 text-neutral-700"
+            class="block text-sm leading-6 font-medium text-neutral-700"
             >Last name</label
           >
           <div class="mt-2">
@@ -160,7 +160,7 @@ const handleSubmit = () => {
             >
               <input
                 autocomplete="family-name"
-                class="block w-full rounded-md bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                class="block w-full rounded-md bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-neutral-600/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-inset sm:text-sm sm:leading-6"
                 :class="[
                   errors.length > 0 && meta.touched
                     ? 'border-1 border-red-500'
@@ -190,7 +190,7 @@ const handleSubmit = () => {
         <div class="col-span-full">
           <label
             for="email"
-            class="block text-sm font-medium leading-6 text-neutral-700"
+            class="block text-sm leading-6 font-medium text-neutral-700"
             >Email address</label
           >
           <div class="mt-2">
@@ -199,7 +199,7 @@ const handleSubmit = () => {
               name="email"
               type="email"
               autocomplete="email"
-              class="block w-full rounded-md border-0 bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 read-only:bg-neutral-200/80 focus:outline-none sm:text-sm sm:leading-6"
+              class="block w-full rounded-md border-0 bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-neutral-600/10 ring-inset read-only:bg-neutral-200/80 focus:outline-none sm:text-sm sm:leading-6"
               v-model="userData.email"
               readonly
             />
@@ -209,19 +209,19 @@ const handleSubmit = () => {
         <div class="col-span-full">
           <label
             for="username"
-            class="block text-sm font-medium leading-6 text-neutral-700"
+            class="block text-sm leading-6 font-medium text-neutral-700"
             >Username</label
           >
           <div class="mt-2">
             <div
-              class="flex rounded-md bg-white/5 ring-1 ring-inset ring-neutral-600/10"
+              class="flex rounded-md bg-white/5 ring-1 ring-neutral-600/10 ring-inset"
             >
               <input
                 type="text"
                 name="username"
                 id="username"
                 autocomplete="username"
-                class="block w-full rounded-md border-0 bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-600/10 read-only:bg-neutral-200/80 focus:outline-none sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 bg-white/5 px-2 py-1.5 text-neutral-700 shadow-sm ring-1 ring-neutral-600/10 ring-inset read-only:bg-neutral-200/80 focus:outline-none sm:text-sm sm:leading-6"
                 placeholder="janesmith"
                 v-model="userData.username"
                 readonly
@@ -231,9 +231,9 @@ const handleSubmit = () => {
         </div>
       </div>
 
-      <UIAlert v-if="error" type="error" class="mt-8">
+      <CustomAlert v-if="error" type="error" class="mt-8">
         {{ error.data?.detail }}
-      </UIAlert>
+      </CustomAlert>
 
       <div class="col-span-full mt-8 flex justify-end sm:max-w-xl">
         <button

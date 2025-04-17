@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "nuxt-app-new",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -8,32 +8,38 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "devDependencies": {
-    "@nuxt/devtools": "^1.2.0",
-    "@nuxt/image": "^1.7.0",
-    "@nuxtjs/i18n": "^8.3.1",
-    "@sidebase/nuxt-auth": "^0.7.2",
-    "@tailwindcss/forms": "^0.5.7",
-    "@types/node": "^18.19.3",
-    "autoprefixer": "^10.4.16",
-    "nuxt": "^3.11.2",
-    "nuxt-headlessui": "^1.1.5",
-    "nuxt-icon": "^0.4.2",
-    "postcss": "^8.4.32",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.14",
-    "tailwindcss": "^3.4.0"
-  },
   "type": "module",
   "dependencies": {
-    "@pinia/nuxt": "^0.4.11",
-    "@vee-validate/nuxt": "^4.12.8",
-    "@vee-validate/yup": "^4.12.8",
-    "pinia": "^2.1.7"
+    "@nuxt/devtools": "^2.4.0",
+    "@nuxt/image": "^1.10.0",
+    "@nuxtjs/i18n": "^9.5.3",
+    "@sidebase/nuxt-auth": "^0.10.1",
+    "@types/node": "^22.14.1",
+    "autoprefixer": "^10.4.21",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-vue-next": "^0.488.0",
+    "nuxt": "^3.16.2",
+    "nuxt-headlessui": "^1.2.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "reka-ui": "^2.2.0",
+    "shadcn-nuxt": "2.0.1",
+    "tailwind-merge": "^3.2.0",
+    "tw-animate-css": "^1.2.5"
   },
   "prettier": {
     "plugins": [
       "prettier-plugin-tailwindcss"
     ]
+  },
+  "devDependencies": {
+    "@nuxt/icon": "^1.12.0",
+    "@pinia/nuxt": "^0.11.0",
+    "@tailwindcss/vite": "^4.1.4",
+    "@vee-validate/nuxt": "^4.15.0",
+    "@vee-validate/yup": "^4.15.0",
+    "pinia": "^3.0.2",
+    "tailwindcss": "^4.1.4"
   }
 }
