@@ -15,15 +15,17 @@ const { data: userList, status } = useFetch<User[]>(
 );
 </script>
 <template>
-  <div v-if="userData?.isAdmin" class="mt-4 mb-4 flex justify-end">
-    <Button :as="NuxtLink" to="/user/create/">
-      <Icon name="heroicons:user-plus-16-solid" class="size-5" />
-      Add user
-    </Button>
-  </div>
-  <div class="flow-root">
-    <div class="-my-2 overflow-x-auto">
-      <CustomDatatable v-if="userList" :columns="columns" :data="userList" />
+  <div>
+    <div v-if="userData?.isAdmin" class="flex justify-end">
+      <Button :as="NuxtLink" to="/user/create/">
+        <Icon name="heroicons:user-plus-16-solid" class="size-5" />
+        Add user
+      </Button>
+    </div>
+    <div class="flow-root">
+      <div class="-my-2 overflow-x-auto">
+        <CustomDatatable v-if="userList" :columns="columns" :data="userList" />
+      </div>
     </div>
   </div>
 </template>

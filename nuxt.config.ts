@@ -56,13 +56,7 @@ export default defineNuxtConfig({
     dirs: ["./stores"],
   },
 
-  pinia: {
-    autoImports: [
-      // automatically imports `defineStore`
-      "defineStore", // import { defineStore } from 'pinia'
-      ["defineStore", "definePiniaStore"], // import { defineStore as definePiniaStore } from 'pinia'
-    ],
-  },
+  pinia: {},
 
   auth: {
     baseURL: `${process.env.NUXT_BACKEND_URL}/api/users`,
@@ -70,17 +64,6 @@ export default defineNuxtConfig({
       type: "local",
       pages: {
         login: "/login",
-      },
-      sessionDataType: {
-        refresh: "string",
-        access: "string",
-        id: "number",
-        _id: "number",
-        username: "string",
-        email: "string",
-        name: "string",
-        isAdmin: "boolean",
-        token: "string",
       },
       endpoints: {
         signIn: { path: "/login/", method: "post" },
@@ -90,10 +73,23 @@ export default defineNuxtConfig({
       token: {
         maxAgeInSeconds: 60 * 60 * 1,
       },
+      session: {
+        dataType: {
+          refresh: "string",
+          access: "string",
+          id: "number",
+          _id: "number",
+          username: "string",
+          email: "string",
+          name: "string",
+          isAdmin: "boolean",
+          token: "string",
+        },
+      },
     },
-    session: {
-      enableRefreshOnWindowFocus: true,
-      enableRefreshPeriodically: false,
+    sessionRefresh: {
+      enableOnWindowFocus: true,
+      enablePeriodically: false,
     },
     globalAppMiddleware: true,
   },
