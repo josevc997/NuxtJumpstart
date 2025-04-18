@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UserWithNames } from "~/types/user";
 import * as yup from "yup";
 import type { NuxtError } from "#app";
 

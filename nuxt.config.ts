@@ -49,6 +49,7 @@ export default defineNuxtConfig({
         file: "./es.json",
       },
     ],
+    strategy: "no_prefix",
   },
 
   imports: {

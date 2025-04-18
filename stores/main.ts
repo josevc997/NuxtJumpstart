@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import type { ToastItem, ToastItemWithId } from "~/types/main";
 
 // main is the name of the store. It is unique across your application
 // and will appear in devtools

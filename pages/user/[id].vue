@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { NuxtError } from "#app";
-import type { UserWithNames } from "~/types/user";
 
 const config = useRuntimeConfig();
 const route = useRoute();
