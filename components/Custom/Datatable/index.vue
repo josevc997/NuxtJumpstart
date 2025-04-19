@@ -19,13 +19,24 @@ import { valueUpdater } from "~/lib/utils";
 import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
 
 const props = defineProps<{
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columns: ColumnDef<TData & { id: number }, TValue>[];
+  data: (TData & { id: number })[];
+  groupListIds?: number[];
 }>();
 
 const sorting = ref<SortingState>([]);
 const columnFilters = ref<ColumnFiltersState>([]);
 const columnVisibility = ref<VisibilityState>({});
+const rowSelection = ref(
+  props.groupListIds
+    ? Object.fromEntries(
+        props.groupListIds.map((id) => [
+          props.data.findIndex((item) => item.id === id),
+          true,
+        ]),
+      )
+    : {},
+);
 
 const table = useVueTable({
   get data() {
@@ -43,6 +54,8 @@ const table = useVueTable({
   getFilteredRowModel: getFilteredRowModel(),
   onColumnVisibilityChange: (updaterOrValue) =>
     valueUpdater(updaterOrValue, columnVisibility),
+  onRowSelectionChange: (updaterOrValue) =>
+    valueUpdater(updaterOrValue, rowSelection),
   state: {
     get sorting() {
       return sorting.value;
@@ -52,6 +65,9 @@ const table = useVueTable({
     },
     get columnVisibility() {
       return columnVisibility.value;
+    },
+    get rowSelection() {
+      return rowSelection.value;
     },
   },
 });
@@ -134,22 +150,28 @@ const table = useVueTable({
       </Table>
     </div>
     <div class="flex items-center justify-end space-x-2 py-4">
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!table.getCanPreviousPage()"
-        @click="table.previousPage()"
-      >
-        Previous
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!table.getCanNextPage()"
-        @click="table.nextPage()"
-      >
-        Next
-      </Button>
+      <div class="text-muted-foreground flex-1 text-sm">
+        {{ table.getFilteredSelectedRowModel().rows.length }} of
+        {{ table.getFilteredRowModel().rows.length }} row(s) selected.
+      </div>
+      <div class="space-x-2">
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="!table.getCanPreviousPage()"
+          @click="table.previousPage()"
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="!table.getCanNextPage()"
+          @click="table.nextPage()"
+        >
+          Next
+        </Button>
+      </div>
     </div>
   </div>
 </template>

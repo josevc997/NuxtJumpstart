@@ -1,6 +1,9 @@
 <script setup>
 const NuxtLink = resolveComponent("nuxt-link");
-const navigation = [{ name: "Users", href: "/user", protected: true }];
+const navigation = [
+  { name: "Users", href: "/user", protected: true },
+  { name: "Groups", href: "/group", protected: true },
+];
 const { status, data, signOut } = useAuth();
 const config = useRuntimeConfig();
 
@@ -35,7 +38,7 @@ const isAuthenticated = computed(() => {
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
           <!-- Mobile menu button-->
           <DisclosureButton
-            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-none focus:ring-inset"
           >
             <Icon name="heroicons:bars-3" class="size-6" />
             <span class="absolute -inset-0.5" />
@@ -110,7 +113,7 @@ const isAuthenticated = computed(() => {
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="ring-opacity-5 absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none"
               >
                 <MenuItem v-slot="{ active }">
                   <a
@@ -154,7 +157,7 @@ const isAuthenticated = computed(() => {
     </div>
 
     <DisclosurePanel class="sm:hidden">
-      <div class="space-y-1 px-2 pb-3 pt-2">
+      <div class="space-y-1 px-2 pt-2 pb-3">
         <DisclosureButton
           v-for="item in navigation"
           :key="item.name"
