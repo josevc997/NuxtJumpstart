@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { columns } from "@/components/Group/columns";
+import { Plus } from "lucide-vue-next";
+
+const NuxtLink = resolveComponent("NuxtLink");
 const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
 const { data: userList, status } = useFetch<User[]>(
@@ -14,7 +17,15 @@ const { data: userList, status } = useFetch<User[]>(
 </script>
 <template>
   <div class="mt-2 flex justify-end">
-    <Button> Add group </Button>
+    <Button
+      :as="NuxtLink"
+      :to="{
+        name: 'group-create',
+      }"
+    >
+      <Plus />
+      Add group
+    </Button>
   </div>
   <CustomDatatable v-if="userList" :columns="columns" :data="userList" />
 </template>

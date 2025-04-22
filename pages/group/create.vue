@@ -2,27 +2,13 @@
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import * as z from "zod";
-import { columns } from "@/components/Group/columns";
-const route = useRoute();
+
 const router = useRouter();
 const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
 
-interface Permission {
-  id: number;
-  name: string;
-  codename: string;
-  content_type: number;
-}
-
-interface Group {
-  id: number;
-  name: string;
-  permissions: number[];
-}
-
-const { data: permissionList, status: permissionStatus } = useFetch<
-  Permission[]
+const { data: permissionList, status } = useFetch<
+  { id: number; name: string; codename: string; content_type: number }[]
 >(`${config.public.backendUrl}/api/users/permission/`, {
   method: "GET",
   headers: {
@@ -30,18 +16,12 @@ const { data: permissionList, status: permissionStatus } = useFetch<
   },
 });
 
-const {
-  data: currentGroup,
-  status: groupStatus,
-  execute: fetchGroup,
-} = useFetch<Group>(
-  `${config.public.backendUrl}/api/users/group/${route.params.id}/`,
-  {
-    method: "GET",
-    headers: {
-      authorization: `${token.value}`,
-    },
-  },
+const permissionForm = computed(() =>
+  permissionList.value?.map((permission) =>
+    z.object({
+      [permission.codename]: z.boolean().optional(),
+    }),
+  ),
 );
 
 const schema = computed(() =>
@@ -89,9 +69,9 @@ const handleSubmit = async () => {
     console.log(data);
 
     const response = await $fetch(
-      `${config.public.backendUrl}/api/users/group/${route.params.id}/`,
+      `${config.public.backendUrl}/api/users/group/`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           authorization: `${token.value}`,
           "Content-Type": "application/json",
@@ -107,29 +87,10 @@ const handleSubmit = async () => {
     console.error("Error submitting form:", error);
   }
 };
-
-onMounted(async () => {
-  await fetchGroup();
-  console.log(currentGroup.value);
-  console.log(
-    Object.fromEntries(
-      permissionList.value?.map((permission) => [permission.codename, false]) ||
-        [],
-    ),
-  );
-  form.setValues({
-    name: currentGroup.value?.name,
-    permissions: Object.fromEntries(
-      permissionList.value?.map((permission) => [
-        permission.codename,
-        currentGroup.value?.permissions.includes(permission.id) ? true : false,
-      ]) || [],
-    ),
-  });
-});
 </script>
 <template>
-  <div class="grid grid-cols-1 gap-4 pt-4 pb-12">
+  <div class="grid grid-cols-1 gap-4 pb-12">
+    <!-- {{ permissionForm }} -->
     <AutoForm
       :form="form"
       :schema="schema"
