@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { toTypedSchema } from "@vee-validate/zod";
+import { LucideChevronDown } from "lucide-vue-next";
 import { useForm } from "vee-validate";
 import * as z from "zod";
 
@@ -16,13 +17,20 @@ const { data: permissionList, status } = useFetch<
   },
 });
 
-const permissionForm = computed(() =>
-  permissionList.value?.map((permission) =>
-    z.object({
-      [permission.codename]: z.boolean().optional(),
-    }),
-  ),
-);
+const selectedModelName = ref("");
+const modelList = computed(() => {
+  const localModelList = [] as string[];
+  permissionList.value?.forEach((permission) => {
+    const modelName = permission.codename.split("_")[1];
+    if (!localModelList.includes(modelName)) {
+      localModelList.push(modelName);
+    }
+  });
+  return localModelList;
+});
+
+const selectedPermissionType = ref("");
+const permissionTypeList = ["add", "change", "delete", "view"];
 
 const schema = computed(() =>
   z.object({
@@ -87,21 +95,96 @@ const handleSubmit = form.handleSubmit(async (values) => {
 });
 </script>
 <template>
-  <div class="grid grid-cols-1 gap-4 pb-12">
-    <form @submit.prevent="handleSubmit" id="createGroup">
-      <FormField
-        v-slot="{ componentField }"
-        name="name"
-        :validate-on-blur="!form.isFieldDirty"
-      >
-        <FormItem>
-          <FormLabel>name</FormLabel>
-          <FormControl>
-            <Input type="text" placeholder="shadcn" v-bind="componentField" />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+  <form
+    @submit.prevent="handleSubmit"
+    id="createGroup"
+    class="grid grid-cols-1 gap-4 py-4"
+  >
+    {{ form.values.permissions }}
+    <FormField
+      v-slot="{ componentField }"
+      name="name"
+      :validate-on-blur="!form.isFieldDirty"
+    >
+      <FormItem>
+        <FormLabel>name</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="shadcn" v-bind="componentField" />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+    <div class="flex justify-start gap-2">
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <Button variant="outline" class="ml-auto">
+              {{ selectedModelName || "All models" }}
+              <LucideChevronDown class="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem
+              @click="selectedModelName = ''"
+              :class="
+                selectedModelName === ''
+                  ? 'bg-gray-100 dark:bg-gray-700'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+              "
+            >
+              All Models
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              v-for="modelName in modelList"
+              :key="modelName"
+              @click="selectedModelName = modelName"
+              :class="
+                selectedModelName === modelName
+                  ? 'bg-gray-100 dark:bg-gray-700'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+              "
+            >
+              {{ modelName }}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <Button variant="outline" class="ml-auto">
+              {{ selectedPermissionType || "All permission types" }}
+              <LucideChevronDown class="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem
+              @click="selectedPermissionType = ''"
+              :class="
+                selectedPermissionType === ''
+                  ? 'bg-gray-100 dark:bg-gray-700'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+              "
+            >
+              All permission types
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              v-for="permissionType in permissionTypeList"
+              :key="permissionType"
+              @click="selectedPermissionType = permissionType"
+              :class="
+                selectedPermissionType === permissionType
+                  ? 'bg-gray-100 dark:bg-gray-700'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+              "
+            >
+              {{ permissionType }}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+    <div class="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
@@ -113,49 +196,58 @@ const handleSubmit = form.handleSubmit(async (values) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow
-            v-for="(permission, index) in permissionList"
-            :key="index"
-            :class="index % 2 === 0 ? 'bg-gray-50' : 'bg-white'"
-          >
-            <TableCell>
-              <FormField
-                v-slot="{ componentField }"
-                :name="`permissions.${permission.codename}`"
-                :validate-on-blur="!form.isFieldDirty"
+          <template v-for="(permission, index) in permissionList" :key="index">
+            <TableRow
+              :class="[
+                (permission.codename.split('_')[1] === selectedModelName ||
+                  !selectedModelName) &&
+                (permission.codename.split('_')[0] === selectedPermissionType ||
+                  !selectedPermissionType)
+                  ? ''
+                  : 'hidden',
+              ]"
+            >
+              <TableCell>
+                <FormField
+                  v-slot="{ value, handleChange }"
+                  :name="`permissions.${permission.codename}`"
+                  :validate-on-blur="!form.isFieldDirty"
+                >
+                  <FormControl>
+                    <Checkbox
+                      :model-value="value"
+                      @update:model-value="handleChange"
+                    />
+                  </FormControl>
+                </FormField>
+              </TableCell>
+              <TableCell
+                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
               >
-                <FormControl>
-                  <Checkbox v-bind="componentField" :value="true" />
-                </FormControl>
-                <FormMessage />
-              </FormField>
-            </TableCell>
-            <TableCell
-              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
-            >
-              {{ permission.codename.split("_")[1] }}
-            </TableCell>
-            <TableCell
-              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
-            >
-              {{ permission.codename.split("_")[0] }}
-            </TableCell>
-            <TableCell
-              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
-            >
-              {{ permission.name }}
-            </TableCell>
-            <TableCell
-              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
-            >
-              {{ permission.codename }}
-            </TableCell>
-          </TableRow>
+                {{ permission.codename.split("_")[1] }}
+              </TableCell>
+              <TableCell
+                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+              >
+                {{ permission.codename.split("_")[0] }}
+              </TableCell>
+              <TableCell
+                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+              >
+                {{ permission.name }}
+              </TableCell>
+              <TableCell
+                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+              >
+                {{ permission.codename }}
+              </TableCell>
+            </TableRow>
+          </template>
         </TableBody>
       </Table>
-    </form>
+    </div>
     <div class="flex justify-end">
       <Button type="sumbit" form="createGroup">Submit</Button>
     </div>
-  </div>
+  </form>
 </template>
