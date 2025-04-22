@@ -42,10 +42,9 @@ const form = useForm({
   validationSchema: computed(() => toTypedSchema(schema.value)),
 });
 
-const handleSubmit = async () => {
+const handleSubmit = form.handleSubmit(async (values) => {
   try {
-    const { values } = form;
-    // console.log(Object.entries(values));
+    // const { values } = form;
 
     const permissions = values.permissions;
     const permissionsIds: number[] = [];
@@ -59,7 +58,6 @@ const handleSubmit = async () => {
             permissionsIds.push(permission.id);
           }
         }
-        // console.log(key, element);
       });
     }
     const data = {
@@ -86,36 +84,76 @@ const handleSubmit = async () => {
   } catch (error) {
     console.error("Error submitting form:", error);
   }
-};
+});
 </script>
 <template>
   <div class="grid grid-cols-1 gap-4 pb-12">
-    <!-- {{ permissionForm }} -->
-    <AutoForm
-      :form="form"
-      :schema="schema"
-      id="createGroup"
-      class=""
-      @submit="
-        (data) => {
-          handleSubmit();
-        }
-      "
-      :field-config="{
-        ...Object.fromEntries(
-          permissionList
-            ? permissionList?.map((permission) => [
-                permission.codename,
-                {
-                  label: permission.name,
-                  type: 'checkbox',
-                  rules: 'required',
-                },
-              ])
-            : [],
-        ),
-      }"
-    />
+    <form @submit.prevent="handleSubmit" id="createGroup">
+      <FormField
+        v-slot="{ componentField }"
+        name="name"
+        :validate-on-blur="!form.isFieldDirty"
+      >
+        <FormItem>
+          <FormLabel>name</FormLabel>
+          <FormControl>
+            <Input type="text" placeholder="shadcn" v-bind="componentField" />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead></TableHead>
+            <TableHead>Model</TableHead>
+            <TableHead>Permission</TableHead>
+            <TableHead>name</TableHead>
+            <TableHead>Codename</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow
+            v-for="(permission, index) in permissionList"
+            :key="index"
+            :class="index % 2 === 0 ? 'bg-gray-50' : 'bg-white'"
+          >
+            <TableCell>
+              <FormField
+                v-slot="{ componentField }"
+                :name="`permissions.${permission.codename}`"
+                :validate-on-blur="!form.isFieldDirty"
+              >
+                <FormControl>
+                  <Checkbox v-bind="componentField" :value="true" />
+                </FormControl>
+                <FormMessage />
+              </FormField>
+            </TableCell>
+            <TableCell
+              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+            >
+              {{ permission.codename.split("_")[1] }}
+            </TableCell>
+            <TableCell
+              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+            >
+              {{ permission.codename.split("_")[0] }}
+            </TableCell>
+            <TableCell
+              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+            >
+              {{ permission.name }}
+            </TableCell>
+            <TableCell
+              class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+            >
+              {{ permission.codename }}
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </form>
     <div class="flex justify-end">
       <Button type="sumbit" form="createGroup">Submit</Button>
     </div>
