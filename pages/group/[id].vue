@@ -3,6 +3,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import * as z from "zod";
 import { columns } from "@/components/Group/columns";
+import { LucideChevronDown } from "lucide-vue-next";
 const route = useRoute();
 const router = useRouter();
 const config = useRuntimeConfig();
@@ -21,6 +22,10 @@ interface Group {
   permissions: number[];
 }
 
+const selectedModelName = ref("");
+const selectedPermissionType = ref("");
+const permissionTypeList = ["add", "change", "delete", "view"];
+
 const { data: permissionList, status: permissionStatus } = useFetch<
   Permission[]
 >(`${config.public.backendUrl}/api/users/permission/`, {
@@ -29,21 +34,6 @@ const { data: permissionList, status: permissionStatus } = useFetch<
     authorization: `${token.value}`,
   },
 });
-
-const selectedModelName = ref("");
-const modelList = computed(() => {
-  const localModelList = [] as string[];
-  permissionList.value?.forEach((permission) => {
-    const modelName = permission.codename.split("_")[1];
-    if (!localModelList.includes(modelName)) {
-      localModelList.push(modelName);
-    }
-  });
-  return localModelList;
-});
-
-const selectedPermissionType = ref("");
-const permissionTypeList = ["add", "change", "delete", "view"];
 
 const {
   data: currentGroup,
@@ -77,11 +67,41 @@ const form = useForm({
   validationSchema: computed(() => toTypedSchema(schema.value)),
 });
 
+const modelList = computed(() => {
+  const localModelList = [] as string[];
+  permissionList.value?.forEach((permission) => {
+    const modelName = permission.codename.split("_")[1];
+    if (!localModelList.includes(modelName)) {
+      localModelList.push(modelName);
+    }
+  });
+  return localModelList;
+});
+
+const filteredPermissionList = computed(() => {
+  return permissionList.value?.filter((permission) => {
+    return (
+      (permission.codename.split("_")[1] === selectedModelName.value ||
+        !selectedModelName.value) &&
+      (permission.codename.split("_")[0] === selectedPermissionType.value ||
+        !selectedPermissionType.value)
+    );
+  });
+});
+
+const allCheckboxValue = computed(() =>
+  filteredPermissionList.value?.every((permissionItem) => {
+    return Object.entries(form.values.permissions ?? {}).some(
+      ([key, value]) => {
+        return permissionItem.codename === key && value === true;
+      },
+    );
+  }),
+);
+
 const handleSubmit = async () => {
   try {
     const { values } = form;
-    // console.log(Object.entries(values));
-
     const permissions = values.permissions;
     const permissionsIds: number[] = [];
     if (permissions !== undefined) {
@@ -94,14 +114,12 @@ const handleSubmit = async () => {
             permissionsIds.push(permission.id);
           }
         }
-        // console.log(key, element);
       });
     }
     const data = {
       name: values.name,
       permissions: permissionsIds,
     };
-    console.log(data);
 
     const response = await $fetch(
       `${config.public.backendUrl}/api/users/group/${route.params.id}/`,
@@ -114,24 +132,34 @@ const handleSubmit = async () => {
         body: data,
       },
     );
-    console.log("Group created successfully:", response);
     router.push({
       name: "group",
     });
   } catch (error) {
-    console.error("Error submitting form:", error);
+    return;
   }
+};
+
+const changeAllCheckbox = () => {
+  const newCheckboxValue = !filteredPermissionList.value?.every(
+    (permissionItem) => {
+      return Object.entries(form.values.permissions ?? {}).some(
+        ([key, value]) => {
+          return permissionItem.codename === key && value === true;
+        },
+      );
+    },
+  );
+  filteredPermissionList.value?.forEach((permissionItem) => {
+    form.setFieldValue(
+      `permissions.${permissionItem.codename}`,
+      newCheckboxValue,
+    );
+  });
 };
 
 onMounted(async () => {
   await fetchGroup();
-  console.log(currentGroup.value);
-  console.log(
-    Object.fromEntries(
-      permissionList.value?.map((permission) => [permission.codename, false]) ||
-        [],
-    ),
-  );
   form.setValues({
     name: currentGroup.value?.name,
     permissions: Object.fromEntries(
@@ -149,7 +177,6 @@ onMounted(async () => {
     id="createGroup"
     class="grid grid-cols-1 gap-4 py-4"
   >
-    {{ form.values.permissions }}
     <FormField
       v-slot="{ componentField }"
       name="name"
@@ -166,9 +193,10 @@ onMounted(async () => {
     <div class="flex justify-start gap-2">
       <div>
         <DropdownMenu>
+          <DropdownMenuLabel>Model</DropdownMenuLabel>
           <DropdownMenuTrigger as-child>
-            <Button variant="outline" class="ml-auto">
-              {{ selectedModelName || "All models" }}
+            <Button variant="outline" class="min-w-[150px] justify-between">
+              {{ selectedModelName || "All" }}
               <LucideChevronDown class="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -181,7 +209,7 @@ onMounted(async () => {
                   : 'hover:bg-gray-100 dark:hover:bg-gray-700'
               "
             >
-              All Models
+              All
             </DropdownMenuItem>
             <DropdownMenuItem
               v-for="modelName in modelList"
@@ -200,9 +228,10 @@ onMounted(async () => {
       </div>
       <div>
         <DropdownMenu>
+          <DropdownMenuLabel>Permission type</DropdownMenuLabel>
           <DropdownMenuTrigger as-child>
-            <Button variant="outline" class="ml-auto">
-              {{ selectedPermissionType || "All permission types" }}
+            <Button variant="outline" class="min-w-[150px] justify-between">
+              {{ selectedPermissionType || "All" }}
               <LucideChevronDown class="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -215,7 +244,7 @@ onMounted(async () => {
                   : 'hover:bg-gray-100 dark:hover:bg-gray-700'
               "
             >
-              All permission types
+              All
             </DropdownMenuItem>
             <DropdownMenuItem
               v-for="permissionType in permissionTypeList"
@@ -237,7 +266,12 @@ onMounted(async () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead> </TableHead>
+            <TableHead>
+              <Checkbox
+                :model-value="allCheckboxValue"
+                @update:model-value="changeAllCheckbox()"
+              />
+            </TableHead>
             <TableHead>Model</TableHead>
             <TableHead>Permission</TableHead>
             <TableHead>name</TableHead>

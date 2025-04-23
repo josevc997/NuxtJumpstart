@@ -15,7 +15,7 @@ const { data: userList, status } = useFetch<User[]>(
 );
 </script>
 <template>
-  <div>
+  <div class="mt-2">
     <div v-if="userData?.isAdmin" class="flex justify-end">
       <Button :as="NuxtLink" to="/user/create/">
         <Icon name="heroicons:user-plus-16-solid" class="size-5" />

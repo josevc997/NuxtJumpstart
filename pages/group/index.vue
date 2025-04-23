@@ -16,16 +16,22 @@ const { data: userList, status } = useFetch<User[]>(
 );
 </script>
 <template>
-  <div class="mt-2 flex justify-end">
-    <Button
-      :as="NuxtLink"
-      :to="{
-        name: 'group-create',
-      }"
-    >
-      <Plus />
-      Add group
-    </Button>
+  <div>
+    <div class="mt-2 flex justify-end">
+      <Button
+        :as="NuxtLink"
+        :to="{
+          name: 'group-create',
+        }"
+      >
+        <Plus />
+        Add group
+      </Button>
+    </div>
+    <div class="flow-root">
+      <div class="-my-2 overflow-x-auto">
+        <CustomDatatable v-if="userList" :columns="columns" :data="userList" />
+      </div>
+    </div>
   </div>
-  <CustomDatatable v-if="userList" :columns="columns" :data="userList" />
 </template>

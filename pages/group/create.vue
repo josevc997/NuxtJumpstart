@@ -8,6 +8,10 @@ const router = useRouter();
 const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
 
+const selectedModelName = ref("");
+const selectedPermissionType = ref("");
+const permissionTypeList = ["add", "change", "delete", "view"];
+
 const { data: permissionList, status } = useFetch<
   { id: number; name: string; codename: string; content_type: number }[]
 >(`${config.public.backendUrl}/api/users/permission/`, {
@@ -17,7 +21,6 @@ const { data: permissionList, status } = useFetch<
   },
 });
 
-const selectedModelName = ref("");
 const modelList = computed(() => {
   const localModelList = [] as string[];
   permissionList.value?.forEach((permission) => {
@@ -29,8 +32,44 @@ const modelList = computed(() => {
   return localModelList;
 });
 
-const selectedPermissionType = ref("");
-const permissionTypeList = ["add", "change", "delete", "view"];
+const filteredPermissionList = computed(() => {
+  return permissionList.value?.filter((permission) => {
+    return (
+      (permission.codename.split("_")[1] === selectedModelName.value ||
+        !selectedModelName.value) &&
+      (permission.codename.split("_")[0] === selectedPermissionType.value ||
+        !selectedPermissionType.value)
+    );
+  });
+});
+
+const allCheckboxValue = computed(() =>
+  filteredPermissionList.value?.every((permissionItem) => {
+    return Object.entries(form.values.permissions ?? {}).some(
+      ([key, value]) => {
+        return permissionItem.codename === key && value === true;
+      },
+    );
+  }),
+);
+
+const changeAllCheckbox = () => {
+  const newCheckboxValue = !filteredPermissionList.value?.every(
+    (permissionItem) => {
+      return Object.entries(form.values.permissions ?? {}).some(
+        ([key, value]) => {
+          return permissionItem.codename === key && value === true;
+        },
+      );
+    },
+  );
+  filteredPermissionList.value?.forEach((permissionItem) => {
+    form.setFieldValue(
+      `permissions.${permissionItem.codename}`,
+      newCheckboxValue,
+    );
+  });
+};
 
 const schema = computed(() =>
   z.object({
@@ -52,8 +91,6 @@ const form = useForm({
 
 const handleSubmit = form.handleSubmit(async (values) => {
   try {
-    // const { values } = form;
-
     const permissions = values.permissions;
     const permissionsIds: number[] = [];
     if (permissions !== undefined) {
@@ -72,7 +109,6 @@ const handleSubmit = form.handleSubmit(async (values) => {
       name: values.name,
       permissions: permissionsIds,
     };
-    console.log(data);
 
     const response = await $fetch(
       `${config.public.backendUrl}/api/users/group/`,
@@ -85,12 +121,11 @@ const handleSubmit = form.handleSubmit(async (values) => {
         body: data,
       },
     );
-    console.log("Group created successfully:", response);
     router.push({
       name: "group",
     });
   } catch (error) {
-    console.error("Error submitting form:", error);
+    return;
   }
 });
 </script>
@@ -100,7 +135,6 @@ const handleSubmit = form.handleSubmit(async (values) => {
     id="createGroup"
     class="grid grid-cols-1 gap-4 py-4"
   >
-    {{ form.values.permissions }}
     <FormField
       v-slot="{ componentField }"
       name="name"
@@ -117,9 +151,10 @@ const handleSubmit = form.handleSubmit(async (values) => {
     <div class="flex justify-start gap-2">
       <div>
         <DropdownMenu>
+          <DropdownMenuLabel>Model</DropdownMenuLabel>
           <DropdownMenuTrigger as-child>
-            <Button variant="outline" class="ml-auto">
-              {{ selectedModelName || "All models" }}
+            <Button variant="outline" class="min-w-[150px] justify-between">
+              {{ selectedModelName || "All" }}
               <LucideChevronDown class="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -132,7 +167,7 @@ const handleSubmit = form.handleSubmit(async (values) => {
                   : 'hover:bg-gray-100 dark:hover:bg-gray-700'
               "
             >
-              All Models
+              All
             </DropdownMenuItem>
             <DropdownMenuItem
               v-for="modelName in modelList"
@@ -151,9 +186,10 @@ const handleSubmit = form.handleSubmit(async (values) => {
       </div>
       <div>
         <DropdownMenu>
+          <DropdownMenuLabel>Permission type</DropdownMenuLabel>
           <DropdownMenuTrigger as-child>
-            <Button variant="outline" class="ml-auto">
-              {{ selectedPermissionType || "All permission types" }}
+            <Button variant="outline" class="min-w-[150px] justify-between">
+              {{ selectedPermissionType || "All" }}
               <LucideChevronDown class="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -166,7 +202,7 @@ const handleSubmit = form.handleSubmit(async (values) => {
                   : 'hover:bg-gray-100 dark:hover:bg-gray-700'
               "
             >
-              All permission types
+              All
             </DropdownMenuItem>
             <DropdownMenuItem
               v-for="permissionType in permissionTypeList"
@@ -188,7 +224,12 @@ const handleSubmit = form.handleSubmit(async (values) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead></TableHead>
+            <TableHead>
+              <Checkbox
+                :model-value="allCheckboxValue"
+                @update:model-value="changeAllCheckbox()"
+              />
+            </TableHead>
             <TableHead>Model</TableHead>
             <TableHead>Permission</TableHead>
             <TableHead>name</TableHead>
