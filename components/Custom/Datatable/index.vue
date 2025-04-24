@@ -77,7 +77,7 @@ const table = useVueTable({
   <div>
     <div class="flex items-center py-4">
       <Input
-        class="max-w-sm"
+        class="max-w-sm bg-white"
         placeholder="Filter emails..."
         :model-value="table.getColumn('name')?.getFilterValue() as string"
         @update:model-value="table.getColumn('name')?.setFilterValue($event)"
@@ -108,8 +108,8 @@ const table = useVueTable({
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-    <div class="rounded-md border">
-      <Table>
+    <div class="rounded-md border bg-white">
+      <Table class="">
         <TableHeader>
           <TableRow
             v-for="headerGroup in table.getHeaderGroups()"

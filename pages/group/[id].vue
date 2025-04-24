@@ -262,7 +262,7 @@ onMounted(async () => {
         </DropdownMenu>
       </div>
     </div>
-    <div class="rounded-md border">
+    <div class="rounded-md border bg-white">
       <Table>
         <TableHeader>
           <TableRow>
@@ -310,17 +310,17 @@ onMounted(async () => {
                 {{ permission.codename.split("_")[1] }}
               </TableCell>
               <TableCell
-                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+                class="whitespace-nowrap text-gray-900 dark:text-white"
               >
                 {{ permission.codename.split("_")[0] }}
               </TableCell>
               <TableCell
-                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+                class="whitespace-nowrap text-gray-900 dark:text-white"
               >
                 {{ permission.name }}
               </TableCell>
               <TableCell
-                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
+                class="whitespace-nowrap text-gray-900 dark:text-white"
               >
                 {{ permission.codename }}
               </TableCell>
