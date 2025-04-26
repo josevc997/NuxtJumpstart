@@ -6,24 +6,18 @@ const navigation = [
   { name: "Users", href: "/user", protected: true },
   { name: "Groups", href: "/group", protected: true },
 ];
-const { status, data, signOut } = useAuth();
-const config = useRuntimeConfig();
-
-const profileImage = computed(() => {
-  if (data.value) {
-    let userImage = data.value.image;
-    if (userImage && userImage[0] === "/") {
-      userImage = `${config.public.backendUrl}${userImage}`;
-    } else if (userImage && userImage[0] !== "/") {
-      userImage = userImage;
-    }
-    return userImage;
-  }
-});
+const { status, data: userData, signOut } = useAuth();
 
 const logout = () => {
   signOut({ callbackUrl: "/login", redirect: true });
 };
+
+const userItems = [
+  {
+    name: "log out",
+    action: logout,
+  },
+];
 
 const isAuthenticated = computed(() => {
   return status.value === "authenticated";
@@ -67,7 +61,12 @@ const isAuthenticated = computed(() => {
           </div>
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
-          <Menu as="div" v-if="isAuthenticated" class="relative ml-3">
+          <CustomAuthDropdown
+            v-if="isAuthenticated"
+            :user="userData"
+            :user-items="userItems"
+          />
+          <!-- <Menu as="div" v-if="isAuthenticated" class="relative ml-3">
             <div>
               <MenuButton
                 class="relative flex items-center rounded-full bg-white text-sm focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
@@ -83,7 +82,7 @@ const isAuthenticated = computed(() => {
                 <p
                   class="inline-flex h-full items-center border-b-2 border-transparent px-1 pt-1 text-sm leading-none font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
                 >
-                  {{ data.username }}
+                  {{ userData.username }}
                 </p>
               </MenuButton>
             </div>
@@ -130,7 +129,7 @@ const isAuthenticated = computed(() => {
                 </MenuItem>
               </MenuItems>
             </transition>
-          </Menu>
+          </Menu> -->
           <NuxtLink
             v-else
             :to="{ name: 'login' }"
@@ -183,10 +182,10 @@ const isAuthenticated = computed(() => {
           </div>
           <div class="ml-3">
             <div class="text-base font-medium text-gray-800">
-              {{ data.name }}
+              {{ userData.name }}
             </div>
             <div class="text-sm font-medium text-gray-500">
-              {{ data.email }}
+              {{ userData.email }}
             </div>
           </div>
         </div>
