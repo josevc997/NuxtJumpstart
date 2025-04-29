@@ -3,6 +3,7 @@ import { columns } from "@/components/User/columns";
 
 const NuxtLink = resolveComponent("NuxtLink");
 
+const { t } = useI18n();
 const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
 const { data: userList, status } = useFetch<User[]>(
@@ -13,6 +14,20 @@ const { data: userList, status } = useFetch<User[]>(
     },
   },
 );
+
+const BreadcrumbData = useState(
+  "BreadcrumbData",
+  () => [] as BreadcrumbTreeLink[],
+);
+
+onMounted(() => {
+  BreadcrumbData.value = [
+    {
+      name: t("users"),
+      href: "/user",
+    },
+  ];
+});
 </script>
 <template>
   <div class="mt-2">

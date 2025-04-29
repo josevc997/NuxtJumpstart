@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { NuxtError } from "#app";
 
+const { t } = useI18n();
 const config = useRuntimeConfig();
 const route = useRoute();
 const router = useRouter();
@@ -58,6 +59,24 @@ const handleSubmit = async (userFormData: any) => {
     router.push("/user");
   }
 };
+
+const BreadcrumbData = useState(
+  "BreadcrumbData",
+  () => [] as BreadcrumbTreeLink[],
+);
+
+onMounted(() => {
+  BreadcrumbData.value = [
+    {
+      name: t("users"),
+      href: "/user",
+    },
+    {
+      name: t("detail"),
+      href: `/user/${route.params.id}`,
+    },
+  ];
+});
 </script>
 
 <template>

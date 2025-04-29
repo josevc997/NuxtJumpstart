@@ -2,6 +2,8 @@
 import { columns } from "@/components/Group/columns";
 import { Plus } from "lucide-vue-next";
 
+const { t } = useI18n();
+
 const NuxtLink = resolveComponent("NuxtLink");
 const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
@@ -14,6 +16,20 @@ const { data: userList, status } = useFetch<User[]>(
     },
   },
 );
+
+const BreadcrumbData = useState(
+  "BreadcrumbData",
+  () => [] as BreadcrumbTreeLink[],
+);
+
+onMounted(() => {
+  BreadcrumbData.value = [
+    {
+      name: t("groups"),
+      href: "/group",
+    },
+  ];
+});
 </script>
 <template>
   <div>

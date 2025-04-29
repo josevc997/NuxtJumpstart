@@ -5,7 +5,7 @@ const submitHandler = (e: any) => {
   e.preventDefault();
   signIn(user, { callbackUrl: "/user" });
 };
-definePageMeta({ auth: false });
+definePageMeta({ auth: false, layout: "navbar" });
 </script>
 <template>
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

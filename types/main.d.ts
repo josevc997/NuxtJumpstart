@@ -6,3 +6,8 @@ interface ToastItem {
 interface ToastItemWithId extends ToastItem {
   id: number;
 }
+
+interface BreadcrumbTreeLink {
+  name: string;
+  href: string;
+}

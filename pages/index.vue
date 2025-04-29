@@ -60,7 +60,7 @@ const installedModules = [
 ];
 
 const { t, locales } = useI18n();
-definePageMeta({ auth: false });
+definePageMeta({ auth: false, layout: "navbar" });
 </script>
 <template>
   <div class="mx-auto max-w-5xl space-y-8 px-4 py-10">

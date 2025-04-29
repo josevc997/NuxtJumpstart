@@ -128,6 +128,23 @@ const handleSubmit = form.handleSubmit(async (values) => {
     return;
   }
 });
+const BreadcrumbData = useState(
+  "BreadcrumbData",
+  () => [] as BreadcrumbTreeLink[],
+);
+
+onMounted(() => {
+  BreadcrumbData.value = [
+    {
+      name: t("groups"),
+      href: "/group",
+    },
+    {
+      name: t("create"),
+      href: "/group/create",
+    },
+  ];
+});
 </script>
 <template>
   <form

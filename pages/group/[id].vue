@@ -4,6 +4,8 @@ import { useForm } from "vee-validate";
 import * as z from "zod";
 import { columns } from "@/components/Group/columns";
 import { LucideChevronDown } from "lucide-vue-next";
+
+const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const config = useRuntimeConfig();
@@ -169,6 +171,24 @@ onMounted(async () => {
       ]) || [],
     ),
   });
+});
+
+const BreadcrumbData = useState(
+  "BreadcrumbData",
+  () => [] as BreadcrumbTreeLink[],
+);
+
+onMounted(() => {
+  BreadcrumbData.value = [
+    {
+      name: t("groups"),
+      href: "/group",
+    },
+    {
+      name: t("detail"),
+      href: `/group/${route.params.id}`,
+    },
+  ];
 });
 </script>
 <template>
