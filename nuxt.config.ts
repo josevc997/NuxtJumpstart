@@ -84,6 +84,7 @@ export default defineNuxtConfig({
           name: "string",
           isAdmin: "boolean",
           token: "string",
+          image: "string",
         },
       },
     },
