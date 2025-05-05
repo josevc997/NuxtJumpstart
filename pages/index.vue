@@ -64,6 +64,8 @@ definePageMeta({ auth: false, layout: "navbar" });
 </script>
 <template>
   <div class="mx-auto max-w-5xl space-y-8 px-4 py-10">
+    {{ usePermissionStore().userPermission }}
+    {{ usePermissionStore().lastUpdated }}
     <div class="mx-auto w-fit">
       <svg
         width="61"

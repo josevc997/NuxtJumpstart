@@ -2,9 +2,11 @@
 import { columns } from "@/components/User/columns";
 
 const NuxtLink = resolveComponent("NuxtLink");
+const permissionStore = usePermissionStore();
 
 const { t } = useI18n();
 const config = useRuntimeConfig();
+const router = useRouter();
 const { token, data: userData } = useAuth();
 const { data: userList, status } = useFetch<User[]>(
   `${config.public.backendUrl}/api/users/`,
@@ -20,6 +22,9 @@ const BreadcrumbData = useState(
   () => [] as BreadcrumbTreeLink[],
 );
 
+const addEmptyPermission = () => {
+  permissionStore.updateUserPermission();
+};
 onMounted(() => {
   BreadcrumbData.value = [
     {
@@ -27,6 +32,9 @@ onMounted(() => {
       href: "/user",
     },
   ];
+});
+definePageMeta({
+  requiredPermissions: ["view_user"],
 });
 </script>
 <template>

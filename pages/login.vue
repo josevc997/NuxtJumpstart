@@ -1,9 +1,18 @@
 <script setup lang="ts">
 const user = reactive({ username: "", password: "" });
-const { signIn } = useAuth();
-const submitHandler = (e: any) => {
+const { signIn, status } = useAuth();
+const permissionStore = usePermissionStore();
+const submitHandler = async (e: any) => {
+  permissionStore.reset();
   e.preventDefault();
-  signIn(user, { callbackUrl: "/user" });
+
+  const result = await signIn(user, {
+    redirect: false,
+  });
+  if (status.value === "authenticated") {
+    await permissionStore.updateUserPermission();
+    navigateTo("/user/");
+  }
 };
 definePageMeta({ auth: false, layout: "navbar" });
 </script>

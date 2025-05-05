@@ -7,9 +7,11 @@ const navigation = [
   { name: "Groups", href: "/group", protected: true },
 ];
 const { status, data: userData, signOut } = useAuth();
+const permissionStore = usePermissionStore();
 
 const logout = () => {
   signOut({ callbackUrl: "/login", redirect: true });
+  permissionStore.reset();
 };
 
 const userItems = [

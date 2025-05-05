@@ -18,6 +18,9 @@ onMounted(() => {
     },
   ];
 });
+definePageMeta({
+  requiredPermissions: ["add_user"],
+});
 </script>
 
 <template>

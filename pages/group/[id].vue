@@ -190,6 +190,10 @@ onMounted(() => {
     },
   ];
 });
+
+definePageMeta({
+  requiredPermissions: ["change_group"],
+});
 </script>
 <template>
   <form

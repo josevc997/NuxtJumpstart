@@ -77,6 +77,10 @@ onMounted(() => {
     },
   ];
 });
+
+definePageMeta({
+  requiredPermissions: ["change_user"],
+});
 </script>
 
 <template>

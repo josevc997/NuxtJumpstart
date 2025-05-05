@@ -11,6 +11,7 @@ const { token, data: userData } = useAuth();
 const selectedModelName = ref("");
 const selectedPermissionType = ref("");
 const permissionTypeList = ["add", "change", "delete", "view"];
+const { t } = useI18n();
 
 const { data: permissionList, status } = useFetch<
   { id: number; name: string; codename: string; content_type: number }[]
@@ -144,6 +145,10 @@ onMounted(() => {
       href: "/group/create",
     },
   ];
+});
+
+definePageMeta({
+  requiredPermissions: ["add_group"],
 });
 </script>
 <template>

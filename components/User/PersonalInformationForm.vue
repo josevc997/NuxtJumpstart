@@ -23,7 +23,6 @@ const computedImage = computed(() => {
 const onChange = async (event: any) => {
   const newImage = event.target.files[0];
   userFormData.value.image = newImage;
-  console.log(userFormData.value);
   if (userFormData.value.image) {
     file.value = URL.createObjectURL(newImage);
   }

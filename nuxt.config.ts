@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
   ],
 
-  devtools: { enabled: true },
+  devtools: { enabled: true, vueDevTools: true },
 
   // Optionally change the default prefix.
   headlessui: {

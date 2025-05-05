@@ -30,6 +30,9 @@ onMounted(() => {
     },
   ];
 });
+definePageMeta({
+  requiredPermissions: ["view_group"],
+});
 </script>
 <template>
   <div>
