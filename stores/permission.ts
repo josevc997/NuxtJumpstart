@@ -10,7 +10,11 @@ export const usePermissionStore = defineStore("permission", {
     async fetchUserPermission() {
       const config = useRuntimeConfig();
       const { token } = useAuth();
-      console.log("Fetching user permission..." + token.value);
+      if (!token.value) {
+        this.userPermission = null;
+        this.lastUpdated = null;
+        return "False";
+      }
 
       try {
         const permission = await $fetch<string[]>(
