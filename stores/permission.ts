@@ -17,7 +17,7 @@ export const usePermissionStore = defineStore("permission", {
       }
 
       try {
-        const permission = await $fetch<string[]>(
+        const { data: permission, status } = await useFetch<string[]>(
           `${config.public.backendUrl}/api/users/user-permission/`,
           {
             headers: {
@@ -25,8 +25,8 @@ export const usePermissionStore = defineStore("permission", {
             },
           },
         );
-        this.userPermission = permission || null;
-        this.lastUpdated = permission ? new Date() : null;
+        this.userPermission = permission.value || null;
+        this.lastUpdated = permission.value ? new Date() : null;
         return "True";
       } catch (error) {
         this.userPermission = null;
