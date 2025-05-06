@@ -10,17 +10,25 @@ export const usePermissionStore = defineStore("permission", {
     async fetchUserPermission() {
       const config = useRuntimeConfig();
       const { token } = useAuth();
+      console.log("Fetching user permission..." + token.value);
 
-      const { data: permission, status } = await useFetch<string[]>(
-        `${config.public.backendUrl}/api/users/user-permission/`,
-        {
-          headers: {
-            authorization: `${token.value}`,
+      try {
+        const permission = await $fetch<string[]>(
+          `${config.public.backendUrl}/api/users/user-permission/`,
+          {
+            headers: {
+              authorization: `${token.value}`,
+            },
           },
-        },
-      );
-      this.userPermission = permission.value || null;
-      this.lastUpdated = permission.value ? new Date() : null;
+        );
+        this.userPermission = permission || null;
+        this.lastUpdated = permission ? new Date() : null;
+        return "True";
+      } catch (error) {
+        this.userPermission = null;
+        this.lastUpdated = null;
+        return "False";
+      }
     },
     async updateUserPermission() {
       if (

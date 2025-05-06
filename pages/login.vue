@@ -10,8 +10,11 @@ const submitHandler = async (e: any) => {
     redirect: false,
   });
   if (status.value === "authenticated") {
-    await permissionStore.updateUserPermission();
+    const result = await permissionStore.fetchUserPermission();
+    console.log("result", result);
+
     navigateTo("/user/");
+    console.log(permissionStore.getUserPermission);
   }
 };
 definePageMeta({ auth: false, layout: "navbar" });
