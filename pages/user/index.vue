@@ -28,7 +28,7 @@ const addEmptyPermission = () => {
 onMounted(() => {
   BreadcrumbData.value = [
     {
-      name: t("users"),
+      name: t("user_page.users"),
       href: "/user",
     },
   ];
@@ -42,7 +42,7 @@ definePageMeta({
     <div v-if="userData?.isAdmin" class="flex justify-end">
       <Button :as="NuxtLink" to="/user/create/">
         <Icon name="heroicons:user-plus-16-solid" class="size-5" />
-        Add user
+        {{ $t("user_page.add_user") }}
       </Button>
     </div>
     <div class="flow-root">

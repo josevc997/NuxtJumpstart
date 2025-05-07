@@ -236,7 +236,7 @@ const handleSubmit = () => {
       <div class="col-span-full mt-8 flex justify-end sm:max-w-xl">
         <button
           type="submit"
-          class="w-full rounded-md bg-indigo-700 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:bg-indigo-400 sm:w-fit"
+          class="w-full rounded-md bg-indigo-700 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:bg-indigo-400 sm:w-fit"
           :disabled="!canSubmit"
         >
           Save

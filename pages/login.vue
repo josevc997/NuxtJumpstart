@@ -29,7 +29,7 @@ definePageMeta({ auth: false, layout: "navbar" });
       <h2
         class="mt-10 text-center text-2xl leading-9 font-bold tracking-tight text-gray-900"
       >
-        Sign in to your account
+        {{ $t("login_page.title") }}
       </h2>
     </div>
 
@@ -39,7 +39,7 @@ definePageMeta({ auth: false, layout: "navbar" });
           <label
             for="username"
             class="block text-sm leading-6 font-medium text-gray-900"
-            >Username</label
+            >{{ $t("user.username") }}</label
           >
           <div class="mt-2">
             <input
@@ -59,7 +59,7 @@ definePageMeta({ auth: false, layout: "navbar" });
             <label
               for="password"
               class="block text-sm leading-6 font-medium text-gray-900"
-              >Password</label
+              >{{ $t("user.password") }}</label
             >
           </div>
           <div class="mt-2">
@@ -76,7 +76,9 @@ definePageMeta({ auth: false, layout: "navbar" });
         </div>
 
         <div>
-          <Button type="submit" class="w-full"> Sign in </Button>
+          <Button type="submit" class="w-full">
+            {{ $t("login_page.sign_in") }}
+          </Button>
         </div>
       </form>
     </div>

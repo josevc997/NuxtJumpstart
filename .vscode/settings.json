@@ -1,11 +1,7 @@
 {
   "editor.formatOnSave": true,
   "peacock.remoteColor": "#215732",
-  "i18n-ally.localesPaths": [
-    
-    "i18n",
-    "i18n/locales"
-  ],
+  "i18n-ally.localesPaths": ["i18n", "i18n/locales"],
   "i18n-ally.dirStructure": "file",
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#65c89b",
@@ -26,5 +22,6 @@
     "titleBar.inactiveBackground": "#42b88399",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.color": "#42b883"
+  "peacock.color": "#42b883",
+  "i18n-ally.keystyle": "nested"
 }

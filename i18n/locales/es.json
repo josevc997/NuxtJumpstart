@@ -7,5 +7,19 @@
   "NuxtIconDescription": "Agregue más de 100 000 íconos listos para usar a su aplicación Nuxt, basados en Iconify.",
   "I18nDescription": "i18n es un marco de internacionalización escrito en y para JavaScript. ¡Pero es mucho más que eso!",
   "NuxtImageDescription": "Optimización de imágenes plug-and-play para aplicaciones Nuxt. Cambie el tamaño y transforme sus imágenes usando el optimizador incorporado o sus imágenes favoritas CDN.",
-  "NuxtContentDescription": "Nuxt Content lee el directorio content/ en su proyecto, analiza los archivos .md, .yml, .csv y .json para crear una poderosa capa de datos para su aplicación. Utilice los componentes de Vue en Markdown con la sintaxis de MDC."
+  "NuxtContentDescription": "Nuxt Content lee el directorio content/ en su proyecto, analiza los archivos .md, .yml, .csv y .json para crear una poderosa capa de datos para su aplicación. Utilice los componentes de Vue en Markdown con la sintaxis de MDC.",
+  "login_page": {
+    "title": "Inicia sesión en tu cuenta",
+    "sign_in": "Iniciar sesión"
+  },
+  "user": {
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "name": "Nombre"
+  },
+  "user_page": {
+    "users": "Usuarios",
+    "add_user": "Agregar usuario"
+  },
+  "home": "Inicio"
 }

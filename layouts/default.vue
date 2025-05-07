@@ -16,7 +16,7 @@ const BreadcrumbData = useState<BreadcrumbTreeLink[]>("BreadcrumbData");
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem class="hidden md:block">
-                <BreadcrumbLink href="/"> Home </BreadcrumbLink>
+                <BreadcrumbLink href="/"> {{ $t("home") }} </BreadcrumbLink>
               </BreadcrumbItem>
               <template v-for="item in BreadcrumbData">
                 <BreadcrumbSeparator class="hidden md:block" />
