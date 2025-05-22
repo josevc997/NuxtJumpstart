@@ -101,8 +101,10 @@ const allCheckboxValue = computed(() =>
   }),
 );
 
-const handleSubmit = async () => {
+const handleSubmit = async (formData: any) => {
   try {
+    console.log("formData", formData);
+    form.setFieldValue("permissions", formData.permissions);
     const { values } = form;
     const permissions = values.permissions;
     const permissionsIds: number[] = [];
@@ -214,147 +216,10 @@ definePageMeta({
         <FormMessage />
       </FormItem>
     </FormField>
-    <div class="flex justify-start gap-2">
-      <div>
-        <DropdownMenu>
-          <DropdownMenuLabel>Model</DropdownMenuLabel>
-          <DropdownMenuTrigger as-child>
-            <Button variant="outline" class="min-w-[150px] justify-between">
-              {{ selectedModelName || "All" }}
-              <LucideChevronDown class="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuItem
-              @click="selectedModelName = ''"
-              :class="
-                selectedModelName === ''
-                  ? 'bg-gray-100 dark:bg-gray-700'
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
-              "
-            >
-              All
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              v-for="modelName in modelList"
-              :key="modelName"
-              @click="selectedModelName = modelName"
-              :class="
-                selectedModelName === modelName
-                  ? 'bg-gray-100 dark:bg-gray-700'
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
-              "
-            >
-              {{ modelName }}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div>
-        <DropdownMenu>
-          <DropdownMenuLabel>Permission type</DropdownMenuLabel>
-          <DropdownMenuTrigger as-child>
-            <Button variant="outline" class="min-w-[150px] justify-between">
-              {{ selectedPermissionType || "All" }}
-              <LucideChevronDown class="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuItem
-              @click="selectedPermissionType = ''"
-              :class="
-                selectedPermissionType === ''
-                  ? 'bg-gray-100 dark:bg-gray-700'
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
-              "
-            >
-              All
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              v-for="permissionType in permissionTypeList"
-              :key="permissionType"
-              @click="selectedPermissionType = permissionType"
-              :class="
-                selectedPermissionType === permissionType
-                  ? 'bg-gray-100 dark:bg-gray-700'
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
-              "
-            >
-              {{ permissionType }}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
-    <div class="rounded-md border bg-white">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>
-              <Checkbox
-                :model-value="allCheckboxValue"
-                @update:model-value="changeAllCheckbox()"
-              />
-            </TableHead>
-            <TableHead>Model</TableHead>
-            <TableHead>Permission</TableHead>
-            <TableHead>name</TableHead>
-            <TableHead>Codename</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <template v-for="(permission, index) in permissionList" :key="index">
-            <TableRow
-              :class="[
-                (permission.codename.split('_')[1] === selectedModelName ||
-                  !selectedModelName) &&
-                (permission.codename.split('_')[0] === selectedPermissionType ||
-                  !selectedPermissionType)
-                  ? ''
-                  : 'hidden',
-              ]"
-            >
-              <TableCell>
-                <FormField
-                  v-slot="{ value, handleChange }"
-                  :name="`permissions.${permission.codename}`"
-                  :validate-on-blur="!form.isFieldDirty"
-                >
-                  <FormControl>
-                    <Checkbox
-                      :model-value="value"
-                      @update:model-value="handleChange"
-                    />
-                  </FormControl>
-                </FormField>
-              </TableCell>
-              <TableCell
-                class="font-medium whitespace-nowrap text-gray-900 dark:text-white"
-              >
-                {{ permission.codename.split("_")[1] }}
-              </TableCell>
-              <TableCell
-                class="whitespace-nowrap text-gray-900 dark:text-white"
-              >
-                {{ permission.codename.split("_")[0] }}
-              </TableCell>
-              <TableCell
-                class="whitespace-nowrap text-gray-900 dark:text-white"
-              >
-                {{ permission.name }}
-              </TableCell>
-              <TableCell
-                class="whitespace-nowrap text-gray-900 dark:text-white"
-              >
-                {{ permission.codename }}
-              </TableCell>
-            </TableRow>
-          </template>
-        </TableBody>
-      </Table>
-    </div>
-    <div class="flex justify-end">
-      <Button type="sumbit" form="createGroup">Submit</Button>
-    </div>
+    <GroupPermissionTable
+      :permission-list="permissionList"
+      :initial-permissions="currentGroup?.permissions || []"
+      @handle-submit="handleSubmit"
+    />
   </form>
 </template>

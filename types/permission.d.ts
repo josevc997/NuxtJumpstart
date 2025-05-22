@@ -23,3 +23,10 @@ type UserPermissionName =
   | "change_user"
   | "delete_user"
   | "view_user";
+
+interface Permission {
+  id: number;
+  name: string;
+  codename: string;
+  content_type: number;
+}

@@ -6,6 +6,19 @@ const BreadcrumbData = useState(
   () => [] as BreadcrumbTreeLink[],
 );
 
+const config = useRuntimeConfig();
+const { token, data: userData } = useAuth();
+
+const { data: permissionList, status } = useFetch<Permission[]>(
+  `${config.public.backendUrl}/api/users/permission/`,
+  {
+    method: "GET",
+    headers: {
+      authorization: `${token.value}`,
+    },
+  },
+);
+
 onMounted(() => {
   BreadcrumbData.value = [
     {
@@ -25,6 +38,7 @@ definePageMeta({
 
 <template>
   <div class="divide-y divide-white/5">
-    <UserCreateForm />
+    <UserCreateForm :permissionList="permissionList" />
+    {{ permissionList }}
   </div>
 </template>

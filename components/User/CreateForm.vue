@@ -3,6 +3,10 @@ import type { GenericValidateFunction } from "vee-validate";
 import * as yup from "yup";
 import type { NuxtError } from "#app";
 
+defineProps<{
+  permissionList: Permission[] | null;
+}>();
+
 const config = useRuntimeConfig();
 const { token } = useAuth();
 const router = useRouter();
@@ -370,6 +374,7 @@ const handleSubmit = async () => {
             </ul>
           </Field>
         </div>
+        <div class="sm:col-span-6">{{ permissionList }}</div>
       </div>
 
       <CustomAlert v-if="requestError" type="error" class="mt-8">

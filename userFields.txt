@@ -1,0 +1,12 @@
+first_name
+last_name
+email
+username
+password
+is_staff
+is_superuser
+groups
+permissions
+is_active
+date_joined
+last_login

@@ -14,4 +14,6 @@ interface User {
 interface UserWithNames extends User {
   first_name: string;
   last_name: string;
+  groups: Group[];
+  permissions: Permission[];
 }

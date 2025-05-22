@@ -1,6 +1,9 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
+  app: {
+    layoutTransition: { name: "layout", mode: "out-in" },
+  },
   ssr: false,
   css: ["~/assets/css/main.css"],
   vite: {

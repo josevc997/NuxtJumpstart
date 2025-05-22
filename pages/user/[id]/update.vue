@@ -30,12 +30,8 @@ const handleSubmit = async (userFormData: any) => {
   if (userFormData.image) {
     newFormData.append("image", userFormData.image);
   }
-  const {
-    data: response,
-    error,
-    status,
-  } = await useAsyncData("userUpdate", () =>
-    $fetch<UserWithNames>(
+  try {
+    const response = await $fetch<UserWithNames>(
       `${config.public.backendUrl}/api/users/${route.params.id}/`,
       {
         headers: {
@@ -45,18 +41,16 @@ const handleSubmit = async (userFormData: any) => {
         method: "POST",
         body: newFormData,
       },
-    ),
-  );
-  if (error.value) {
-    submitError.value = error.value as NuxtError<{ detail: string }>;
-  } else {
+    );
     submitError.value = null;
-    user.value = response.value;
+    user.value = response;
     mainStore.addToastMessage({
       message: "User modified succesfully",
       type: "success",
     });
     router.push("/user");
+  } catch (error) {
+    submitError.value = error as NuxtError<{ detail: string }>;
   }
 };
 
