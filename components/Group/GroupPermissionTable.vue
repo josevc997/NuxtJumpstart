@@ -267,8 +267,5 @@ onMounted(async () => {
     <div class="flex justify-end">
       <Button type="button" @click="handleSubmit(form.values)">Submit</Button>
     </div>
-    <pre>
-      {{ form.values }}
-    </pre>
   </div>
 </template>
