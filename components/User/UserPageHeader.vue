@@ -27,9 +27,9 @@ defineProps<{
         <p class="text-foreground break-all">
           {{ user?.email }}
         </p>
-        <Button variant="outline" class="mt-2 sm:hidden">Upload photo</Button>
+        <!-- <Button variant="outline" class="mt-2 sm:hidden">Upload photo</Button> -->
       </div>
     </div>
-    <Button variant="outline" class="hidden sm:block">Upload photo</Button>
+    <!-- <Button variant="outline" class="hidden sm:block">Upload photo</Button> -->
   </div>
 </template>

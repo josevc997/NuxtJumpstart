@@ -11,19 +11,6 @@ const router = useRouter();
 const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
 
-interface Permission {
-  id: number;
-  name: string;
-  codename: string;
-  content_type: number;
-}
-
-interface Group {
-  id: number;
-  name: string;
-  permissions: number[];
-}
-
 const selectedModelName = ref("");
 const selectedPermissionType = ref("");
 const permissionTypeList = ["add", "change", "delete", "view"];

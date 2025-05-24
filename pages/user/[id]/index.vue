@@ -97,26 +97,28 @@ definePageMeta({
           >Editar</Button
         >
       </div>
-      <Table class="mt-4 border">
-        <TableHeader>
-          <TableRow>
-            <TableHead> Nombre </TableHead>
-            <TableHead> Cantidad de permisos </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow v-for="group in user?.groups" :key="group.id">
-            <TableCell>
-              <NuxtLink :to="{ name: 'group-id', params: { id: group.id } }">
-                {{ group.name }}
-              </NuxtLink>
-            </TableCell>
-            <TableCell>
-              {{ group.permissions.length }}
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <div class="mt-4 rounded border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead> Nombre </TableHead>
+              <TableHead> Cantidad de permisos </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow v-for="group in user?.groups" :key="group.id">
+              <TableCell>
+                <NuxtLink :to="{ name: 'group-id', params: { id: group.id } }">
+                  {{ group.name }}
+                </NuxtLink>
+              </TableCell>
+              <TableCell>
+                {{ group.permissions.length }}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
     </div>
     <div class="border-t border-gray-300 py-4">
       <div class="flex items-baseline justify-between">
@@ -128,35 +130,37 @@ definePageMeta({
           >Editar</Button
         >
       </div>
-      <Table class="mt-4 border">
-        <TableHeader>
-          <TableRow>
-            <TableHead> Modelo </TableHead>
-            <TableHead> Permiso </TableHead>
-            <TableHead> Nombre </TableHead>
-            <TableHead> Nombre en codigo </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow
-            v-for="permission in user?.permissions"
-            :key="permission.id"
-          >
-            <TableCell>
-              {{ permission.codename.split("_")[1] }}
-            </TableCell>
-            <TableCell>
-              {{ permission.codename.split("_")[0] }}
-            </TableCell>
-            <TableCell>
-              {{ permission.name }}
-            </TableCell>
-            <TableCell>
-              {{ permission.codename }}
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <div class="mt-4 rounded border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead> Modelo </TableHead>
+              <TableHead> Permiso </TableHead>
+              <TableHead> Nombre </TableHead>
+              <TableHead> Nombre en codigo </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow
+              v-for="permission in user?.permissions"
+              :key="permission.id"
+            >
+              <TableCell>
+                {{ permission.codename.split("_")[1] }}
+              </TableCell>
+              <TableCell>
+                {{ permission.codename.split("_")[0] }}
+              </TableCell>
+              <TableCell>
+                {{ permission.name }}
+              </TableCell>
+              <TableCell>
+                {{ permission.codename }}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
     </div>
   </div>
 </template>

@@ -78,7 +78,7 @@ const handleSubmit = async (values: any) => {
     </div>
     <UserPageHeader v-if="user" :user="user" />
     <div class="border-t py-4">
-      Permisos
+      <h3 class="text-foreground text-xl font-bold">Permisos</h3>
 
       <GroupPermissionTable
         :permission-list="permissionList"

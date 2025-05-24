@@ -30,3 +30,9 @@ interface Permission {
   codename: string;
   content_type: number;
 }
+
+interface Group {
+  id: number;
+  name: string;
+  permissions: number[];
+}
