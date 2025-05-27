@@ -39,7 +39,10 @@ definePageMeta({
 </script>
 <template>
   <div class="mt-2">
-    <div v-if="userData?.isAdmin" class="flex justify-end">
+    <div
+      v-if="permissionStore.hasPermissions(['add_user'])"
+      class="flex justify-end"
+    >
       <Button :as="NuxtLink" to="/user/create/">
         <Icon name="heroicons:user-plus-16-solid" class="size-5" />
         {{ $t("user_page.add_user") }}

@@ -42,6 +42,14 @@ export const usePermissionStore = defineStore("permission", {
         await this.fetchUserPermission();
       }
     },
+    hasPermissions(permissionList: UserPermissionName[]) {
+      if (!this.userPermission) {
+        return false;
+      }
+      return permissionList.every((permission) =>
+        this.userPermission?.includes(permission),
+      );
+    },
     reset() {
       this.userPermission = null;
       this.lastUpdated = null;
