@@ -21,20 +21,24 @@ export const columns: ColumnDef<User>[] = [
     },
     cell: ({ row }) => {
       const user = row.original; // Access the original row data
-      const name = user.name as string; // Access the "name" field directly
+      const name = user.name || ""; // Access the "name" field directly
       return h("div", { class: "flex items-center gap-x-4" }, [
-        h(Avatar, { class: "size-11 shadow outline outline-gray-600/20" }, [
-          h(
-            AvatarImage,
-            { class: "object-cover object-center", src: user.image as string },
-            user.image,
-          ),
-          h(
-            AvatarFallback,
-            { class: "font-medium uppercase" },
-            `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-          ),
-        ]),
+        h(
+          Avatar,
+          { class: "size-11 shadow outline outline-gray-600/20" },
+          () => [
+            h(
+              AvatarImage,
+              { class: "object-cover object-center", src: user.image || "" },
+              () => user.image,
+            ),
+            h(
+              AvatarFallback,
+              { class: "font-medium uppercase" },
+              () => `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+            ),
+          ],
+        ),
         h("div", { class: "" }, [
           h("p", { class: "font-medium text-neutral-600" }, name),
           h("p", { class: "mt-1 text-neutral-500" }, user.email),
@@ -78,11 +82,9 @@ export const columns: ColumnDef<User>[] = [
       return h(
         Badge,
         {
-          variant: (row.getValue("Status") as boolean)
-            ? "success"
-            : "destructive",
+          variant: row.getValue("Status") ? "success" : "destructive",
         },
-        (row.getValue("Status") as boolean) ? "Active" : "Inactive",
+        () => (row.getValue("Status") ? "Active" : "Inactive"),
       );
     },
   },

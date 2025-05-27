@@ -33,8 +33,18 @@ const props = defineProps<{
   };
 }>();
 const config = useRuntimeConfig();
+const router = useRouter();
 
 const { isMobile } = useSidebar();
+
+const handleLogout = async () => {
+  try {
+    await signOut({ callbackUrl: "/login", redirect: false });
+    router.push("/login");
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+};
 
 const profileImage = computed(() => {
   if (props.user) {
@@ -105,9 +115,7 @@ const { status, data: userData, signOut } = useAuth();
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            @click="signOut({ callbackUrl: '/login', redirect: true })"
-          >
+          <DropdownMenuItem @click="handleLogout">
             <LogOut />
             Log out
           </DropdownMenuItem>
