@@ -46,7 +46,7 @@ const handleSubmit = async (values: any) => {
   }
   try {
     const response = await fetch(
-      `${config.public.backendUrl}/api/users/user-permission/${route.params.id}/`,
+      `${config.public.backendUrl}/api/users/permission/${route.params.id}/`,
       {
         method: "PUT",
         headers: {
@@ -64,6 +64,10 @@ const handleSubmit = async (values: any) => {
     });
   } catch (error) {}
 };
+
+// definePageMeta({
+//   requiredPermissions: ["view_permission"],
+// });
 </script>
 <template>
   <div>

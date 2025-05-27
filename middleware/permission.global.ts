@@ -18,6 +18,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const hasPermission = requiredPermissions.every((permission) =>
     userPermission.includes(permission),
   );
+  console.log(hasPermission, userPermission);
 
   if (!hasPermission) {
     return navigateTo("/403");

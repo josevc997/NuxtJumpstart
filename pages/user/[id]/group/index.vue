@@ -48,6 +48,10 @@ const handleSubmit = async (values: any) => {
     });
   } catch (error) {}
 };
+
+definePageMeta({
+  requiredPermissions: ["change_group", "view_group"],
+});
 </script>
 <template>
   <div>

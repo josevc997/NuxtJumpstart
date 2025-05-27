@@ -23,8 +23,12 @@ export const columns: ColumnDef<User>[] = [
       const user = row.original; // Access the original row data
       const name = user.name as string; // Access the "name" field directly
       return h("div", { class: "flex items-center gap-x-4" }, [
-        h(Avatar, { class: "size-11" }, [
-          h(AvatarImage, { class: "", src: user.image as string }, user.image),
+        h(Avatar, { class: "size-11 shadow outline outline-gray-600/20" }, [
+          h(
+            AvatarImage,
+            { class: "object-cover object-center", src: user.image as string },
+            user.image,
+          ),
           h(
             AvatarFallback,
             { class: "font-medium uppercase" },
