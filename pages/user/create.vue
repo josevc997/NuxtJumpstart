@@ -39,6 +39,5 @@ definePageMeta({
 <template>
   <div class="divide-y divide-white/5">
     <UserCreateForm :permissionList="permissionList" />
-    {{ permissionList }}
   </div>
 </template>

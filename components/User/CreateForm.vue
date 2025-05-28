@@ -374,7 +374,6 @@ const handleSubmit = async () => {
             </ul>
           </Field>
         </div>
-        <div class="sm:col-span-6">{{ permissionList }}</div>
       </div>
 
       <CustomAlert v-if="requestError" type="error" class="mt-8">
