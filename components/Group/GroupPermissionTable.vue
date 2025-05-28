@@ -230,12 +230,14 @@ onMounted(async () => {
                     v-slot="{ value, handleChange }"
                     :name="`permissions.${permission.codename}`"
                   >
-                    <FormControl>
-                      <Checkbox
-                        :model-value="value"
-                        @update:model-value="handleChange"
-                      />
-                    </FormControl>
+                    <FormItem>
+                      <FormControl>
+                        <Checkbox
+                          :model-value="value"
+                          @update:model-value="handleChange"
+                        />
+                      </FormControl>
+                    </FormItem>
                   </FormField>
                 </ClientOnly>
               </TableCell>

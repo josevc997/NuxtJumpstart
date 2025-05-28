@@ -276,12 +276,14 @@ definePageMeta({
                   :name="`permissions.${permission.codename}`"
                   :validate-on-blur="!form.isFieldDirty"
                 >
-                  <FormControl>
-                    <Checkbox
-                      :model-value="value"
-                      @update:model-value="handleChange"
-                    />
-                  </FormControl>
+                  <FormItem>
+                    <FormControl>
+                      <Checkbox
+                        :model-value="value"
+                        @update:model-value="handleChange"
+                      />
+                    </FormControl>
+                  </FormItem>
                 </FormField>
               </TableCell>
               <TableCell

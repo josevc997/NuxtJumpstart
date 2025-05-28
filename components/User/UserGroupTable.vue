@@ -78,12 +78,14 @@ watch(
                     v-slot="{ value, handleChange }"
                     :name="`groups.${group.name}`"
                   >
-                    <FormControl>
-                      <Checkbox
-                        :model-value="value"
-                        @update:model-value="handleChange"
-                      />
-                    </FormControl>
+                    <FormItem>
+                      <FormControl>
+                        <Checkbox
+                          :model-value="value"
+                          @update:model-value="handleChange"
+                        />
+                      </FormControl>
+                    </FormItem>
                   </FormField>
                 </ClientOnly>
               </TableCell>

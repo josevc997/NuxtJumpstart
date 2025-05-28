@@ -21,5 +21,9 @@
     "users": "Users",
     "add_user": "Add user"
   },
-  "home": "Home"
+  "home": "Home",
+  "users": "Users",
+  "detail": "Detail",
+  "groups": "Groups",
+  "create": "Create"
 }

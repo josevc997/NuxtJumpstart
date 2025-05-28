@@ -27,7 +27,6 @@ const handleSubmit = async (values: any) => {
       }
     });
   }
-  console.log(groupCodes);
   try {
     const response = await fetch(
       `${config.public.backendUrl}/api/users/user-group/${route.params.id}/`,

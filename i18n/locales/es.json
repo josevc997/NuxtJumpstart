@@ -21,5 +21,9 @@
     "users": "Usuarios",
     "add_user": "Agregar usuario"
   },
-  "home": "Inicio"
+  "home": "Inicio",
+  "users": "Usuarios",
+  "detail": "Detalle",
+  "groups": "Grupos",
+  "create": "Crear"
 }

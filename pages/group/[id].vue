@@ -90,7 +90,6 @@ const allCheckboxValue = computed(() =>
 
 const handleSubmit = async (formData: any) => {
   try {
-    console.log("formData", formData);
     form.setFieldValue("permissions", formData.permissions);
     const { values } = form;
     const permissions = values.permissions;

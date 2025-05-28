@@ -11,10 +11,8 @@ const submitHandler = async (e: any) => {
   });
   if (status.value === "authenticated") {
     const result = await permissionStore.fetchUserPermission();
-    console.log("result", result);
 
     navigateTo("/user/");
-    console.log(permissionStore.getUserPermission);
   }
 };
 definePageMeta({ auth: false, layout: "navbar" });

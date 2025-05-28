@@ -32,7 +32,6 @@ const postUpdatePermissions = (values: any) => {
       }
     });
   }
-  console.log("permissionsIds", permissionsIds);
 };
 
 const handleSubmit = async (values: any) => {
