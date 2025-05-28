@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { type ColumnDef } from "@tanstack/vue-table";
-import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
+import { ChevronsUpDown, ChevronDown, ChevronUp } from "lucide-vue-next";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -16,7 +16,19 @@ export const columns: ColumnDef<User>[] = [
           variant: "ghost",
           onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
         },
-        () => ["name", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })],
+        () => [
+          "name",
+          h(
+            column.getIsSorted() === "asc"
+              ? ChevronUp
+              : column.getIsSorted() === "desc"
+                ? ChevronDown
+                : ChevronsUpDown,
+            {
+              class: "ml-2 h-4 w-4",
+            },
+          ),
+        ],
       );
     },
     cell: ({ row }) => {
@@ -56,7 +68,17 @@ export const columns: ColumnDef<User>[] = [
           variant: "ghost",
           onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
         },
-        () => ["Role", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })],
+        () => [
+          "Role",
+          h(
+            column.getIsSorted() === "asc"
+              ? ChevronUp
+              : column.getIsSorted() === "desc"
+                ? ChevronDown
+                : ChevronsUpDown,
+            { class: "ml-2 h-4 w-4" },
+          ),
+        ],
       );
     },
     cell: ({ row }) => {
@@ -75,7 +97,17 @@ export const columns: ColumnDef<User>[] = [
           variant: "ghost",
           onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
         },
-        () => ["Status", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })],
+        () => [
+          "Status",
+          h(
+            column.getIsSorted() === "asc"
+              ? ChevronUp
+              : column.getIsSorted() === "desc"
+                ? ChevronDown
+                : ChevronsUpDown,
+            { class: "ml-2 h-4 w-4" },
+          ),
+        ],
       );
     },
     cell: ({ row }) => {
@@ -98,7 +130,17 @@ export const columns: ColumnDef<User>[] = [
           variant: "ghost",
           onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
         },
-        () => ["Date joined", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })],
+        () => [
+          "Date joined",
+          h(
+            column.getIsSorted() === "asc"
+              ? ChevronUp
+              : column.getIsSorted() === "desc"
+                ? ChevronDown
+                : ChevronsUpDown,
+            { class: "ml-2 h-4 w-4" },
+          ),
+        ],
       );
     },
     cell: ({ row }) => {
