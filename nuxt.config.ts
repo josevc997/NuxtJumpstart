@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     "@vee-validate/nuxt",
     "shadcn-nuxt",
     "@nuxt/icon",
+    "reka-ui/nuxt",
   ],
 
   devtools: { enabled: true, vueDevTools: true },
@@ -59,7 +60,9 @@ export default defineNuxtConfig({
     dirs: ["./stores"],
   },
 
-  pinia: {},
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
 
   auth: {
     baseURL: `${process.env.NUXT_BACKEND_URL}/api/users`,
@@ -111,7 +114,7 @@ export default defineNuxtConfig({
      * Directory that the component lives in.
      * @default "./components/ui"
      */
-    componentDir: "./components/ui",
+    componentDir: "@/components/ui",
   },
 
   compatibilityDate: "2025-04-15",
