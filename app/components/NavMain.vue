@@ -28,11 +28,12 @@ defineProps<{
     }[];
   }[];
 }>();
+const open = useCookie("sidebar_state");
 </script>
 
 <template>
   <SidebarGroup>
-    <!-- <SidebarGroupLabel>Platform</SidebarGroupLabel> -->
+    <SidebarGroupLabel v-if="open"> Platform </SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible
         v-for="item in items"

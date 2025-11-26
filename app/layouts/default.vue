@@ -19,7 +19,7 @@ const { locale, availableLocales, t } = useI18n();
 
 const BreadcrumbData = useState<BreadcrumbTreeLink[]>("BreadcrumbData");
 
-const open = ref(false);
+const open = useCookie("sidebar_state", { default: () => false });
 </script>
 
 <template>
@@ -53,8 +53,8 @@ const open = ref(false);
           </div>
         </header>
         <div
-          class="flex flex-1 flex-col gap-4 p-4 pt-0"
-          :class="[open ? 'pl-52' : 'pl-12']"
+          class="flex flex-1 flex-col gap-4 p-4 pt-0 transition-all duration-200 ease-linear"
+          :class="[open ? 'pl-55' : 'pl-16']"
         >
           <slot />
         </div>
