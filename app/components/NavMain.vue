@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ChevronRight, type LucideIcon } from "lucide-vue-next";
 
-defineProps<{
+const props = defineProps<{
   items: {
     title: string;
     url: string;
@@ -25,10 +25,27 @@ defineProps<{
     items?: {
       title: string;
       url: string;
+      requiredPermission?: UserPermissionName;
     }[];
   }[];
 }>();
+const permissionStore = usePermissionStore();
 const open = useCookie("sidebar_state");
+
+const filteredItems = computed(() => {
+  return props.items.filter((item) => {
+    if (!item.items) {
+      return true;
+    }
+    const filteredSubItems = item.items.filter((subItem) => {
+      if (!subItem.requiredPermission) {
+        return true;
+      }
+      return permissionStore.hasPermissions([subItem.requiredPermission]);
+    });
+    return filteredSubItems.length > 0;
+  });
+});
 </script>
 
 <template>
@@ -36,7 +53,7 @@ const open = useCookie("sidebar_state");
     <SidebarGroupLabel v-if="open"> Platform </SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible
-        v-for="item in items"
+        v-for="item in filteredItems"
         :key="item.title"
         as-child
         :default-open="item.isActive"
@@ -54,16 +71,20 @@ const open = useCookie("sidebar_state");
           </CollapsibleTrigger>
           <CollapsibleContent>
             <SidebarMenuSub>
-              <SidebarMenuSubItem
-                v-for="subItem in item.items"
-                :key="subItem.title"
-              >
-                <SidebarMenuSubButton as-child>
-                  <NuxtLink :to="subItem.url">
-                    <span>{{ subItem.title }}</span>
-                  </NuxtLink>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
+              <template v-for="subItem in item.items" :key="subItem.title">
+                <SidebarMenuSubItem
+                  v-if="
+                    !subItem.requiredPermission ||
+                    permissionStore.hasPermissions([subItem.requiredPermission])
+                  "
+                >
+                  <SidebarMenuSubButton as-child>
+                    <NuxtLink :to="subItem.url">
+                      <span>{{ subItem.title }}</span>
+                    </NuxtLink>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              </template>
             </SidebarMenuSub>
           </CollapsibleContent>
         </SidebarMenuItem>

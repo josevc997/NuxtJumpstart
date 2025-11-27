@@ -45,10 +45,12 @@ export const data = {
         {
           title: "Users",
           url: "/user",
+          requiredPermission: "view_user",
         },
         {
           title: "Groups",
           url: "/group",
+          requiredPermission: "view_group",
         },
       ],
     },
