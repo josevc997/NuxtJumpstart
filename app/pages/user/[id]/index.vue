@@ -57,13 +57,13 @@ definePageMeta({
       <div>
         <p class="text-foreground text-sm font-bold">Nombres</p>
         <p>
-          {{ user?.first_name }}
+          {{ user?.first_name ? user.first_name : "- -" }}
         </p>
       </div>
       <div>
         <p class="text-foreground text-sm font-bold">Last name</p>
         <p>
-          {{ user?.last_name }}
+          {{ user?.last_name ? user.last_name : "- -" }}
         </p>
       </div>
       <div>
@@ -116,6 +116,9 @@ definePageMeta({
                 {{ group.permissions.length }}
               </TableCell>
             </TableRow>
+            <TableEmpty v-if="user?.groups.length === 0" :colspan="2">
+              No results.
+            </TableEmpty>
           </TableBody>
         </Table>
       </div>
@@ -158,6 +161,9 @@ definePageMeta({
                 {{ permission.codename }}
               </TableCell>
             </TableRow>
+            <TableEmpty v-if="user?.permissions.length === 0" :colspan="4">
+              No results.
+            </TableEmpty>
           </TableBody>
         </Table>
       </div>

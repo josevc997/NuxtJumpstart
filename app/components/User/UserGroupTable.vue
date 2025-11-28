@@ -111,6 +111,9 @@ watch(
                 </TableCell> -->
             </TableRow>
           </template>
+          <TableEmpty v-if="groupList?.length === 0" :colspan="3">
+            No results.
+          </TableEmpty>
         </TableBody>
       </Table>
     </div>
