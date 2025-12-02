@@ -12,12 +12,7 @@ const mainStore = useMainStore();
 const { token } = useAuth();
 
 const { data: user, status } = useFetch<UserWithNames>(
-  `${config.public.backendUrl}/api/users/${route.params.id}/`,
-  {
-    headers: {
-      authorization: `${token.value}`,
-    },
-  },
+  `/api/user/${route.params.id}/`,
 );
 
 definePageMeta({

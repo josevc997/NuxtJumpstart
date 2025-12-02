@@ -5,18 +5,11 @@ const { token } = useAuth();
 const NuxtLink = resolveComponent("NuxtLink");
 
 const { data: user, status } = useFetch<UserWithNames>(
-  `${config.public.backendUrl}/api/users/${route.params.id}/`,
+  `/api/user/${route.params.id}/`,
 );
 
-const { data: groupList, status: groupListStatus } = useFetch<Group[]>(
-  `${config.public.backendUrl}/api/users/group/`,
-  {
-    method: "GET",
-    headers: {
-      authorization: `${token.value}`,
-    },
-  },
-);
+const { data: groupList, status: groupListStatus } =
+  useFetch<Group[]>(`/api/group/`);
 
 const handleSubmit = async (values: any) => {
   const groupCodes: string[] = [];
@@ -28,19 +21,12 @@ const handleSubmit = async (values: any) => {
     });
   }
   try {
-    const response = await fetch(
-      `${config.public.backendUrl}/api/users/user-group/${route.params.id}/`,
-      {
-        method: "PUT",
-        headers: {
-          authorization: `${token.value}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          groups: groupCodes,
-        }),
-      },
-    );
+    const response = await fetch(`/api/user/user-group/${route.params.id}/`, {
+      method: "PUT",
+      body: JSON.stringify({
+        groups: groupCodes,
+      }),
+    });
     useRouter().push({
       name: "user-id",
       params: { id: route.params.id },

@@ -9,14 +9,11 @@ const { t } = useI18n();
 const config = useRuntimeConfig();
 const router = useRouter();
 const { token, data: userData } = useAuth();
-const { data: userList, status } = useFetch<User[]>(
-  `${config.public.backendUrl}/api/users/`,
-  {
-    headers: {
-      authorization: `${token.value}`,
-    },
+const { data: userList, status } = useFetch<User[]>(`/api/user/`, {
+  headers: {
+    authorization: `${token.value}`,
   },
-);
+});
 
 const BreadcrumbData = useState(
   "BreadcrumbData",

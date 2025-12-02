@@ -6,16 +6,13 @@ const { token } = useAuth();
 const route = useRoute();
 
 const { data: user, status } = useFetch<UserWithNames>(
-  `${config.public.backendUrl}/api/users/${route.params.id}/`,
+  `/api/user/${route.params.id}/`,
 );
 
 const { data: permissionList, status: permissionStatus } = useFetch<
   Permission[]
->(`${config.public.backendUrl}/api/users/permission/`, {
+>(`/api/user/permission/`, {
   method: "GET",
-  headers: {
-    authorization: `${token.value}`,
-  },
 });
 
 const postUpdatePermissions = (values: any) => {
@@ -44,24 +41,21 @@ const handleSubmit = async (values: any) => {
     });
   }
   try {
-    const response = await fetch(
-      `${config.public.backendUrl}/api/users/permission/${route.params.id}/`,
-      {
-        method: "PUT",
-        headers: {
-          authorization: `${token.value}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          permissions: permissionsCodes,
-        }),
-      },
-    );
-    useRouter().push({
-      name: "user-id",
-      params: { id: route.params.id },
+    const response = await fetch(`/api/user/permission/${route.params.id}/`, {
+      method: "PUT",
+      body: JSON.stringify({
+        permissions: permissionsCodes,
+      }),
     });
-  } catch (error) {}
+    if (response.status === 200) {
+      useRouter().push({
+        name: "user-id",
+        params: { id: route.params.id },
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // definePageMeta({

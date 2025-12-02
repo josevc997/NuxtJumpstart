@@ -15,11 +15,8 @@ const { t } = useI18n();
 
 const { data: permissionList, status } = useFetch<
   { id: number; name: string; codename: string; content_type: number }[]
->(`${config.public.backendUrl}/api/users/permission/`, {
+>(`/api/user/permission/`, {
   method: "GET",
-  headers: {
-    authorization: `${token.value}`,
-  },
 });
 
 const modelList = computed(() => {
@@ -111,17 +108,10 @@ const handleSubmit = form.handleSubmit(async (values) => {
       permissions: permissionsIds,
     };
 
-    const response = await $fetch(
-      `${config.public.backendUrl}/api/users/group/`,
-      {
-        method: "POST",
-        headers: {
-          authorization: `${token.value}`,
-          "Content-Type": "application/json",
-        },
-        body: data,
-      },
-    );
+    const response = await $fetch(`/api/group/`, {
+      method: "POST",
+      body: data,
+    });
     router.push({
       name: "group",
     });

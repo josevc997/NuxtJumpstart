@@ -72,10 +72,7 @@ const handleSubmit = async () => {
     formData.append("image", userFormData.value.image);
   }
   const { error } = await useAsyncData("user2", () =>
-    $fetch(`${config.public.backendUrl}/api/users/`, {
-      headers: {
-        authorization: `${token.value}`,
-      },
+    $fetch(`/api/user/`, {
       method: "POST",
       body: formData,
     }),

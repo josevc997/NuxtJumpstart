@@ -10,13 +10,7 @@ const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
 
 const { data: permissionList, status } = useFetch<Permission[]>(
-  `${config.public.backendUrl}/api/users/permission/`,
-  {
-    method: "GET",
-    headers: {
-      authorization: `${token.value}`,
-    },
-  },
+  `/api/user/permission/`,
 );
 
 onMounted(() => {

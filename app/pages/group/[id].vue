@@ -17,26 +17,13 @@ const permissionTypeList = ["add", "change", "delete", "view"];
 
 const { data: permissionList, status: permissionStatus } = useFetch<
   Permission[]
->(`${config.public.backendUrl}/api/users/permission/`, {
-  method: "GET",
-  headers: {
-    authorization: `${token.value}`,
-  },
-});
+>(`/api/user/permission/`, {});
 
 const {
   data: currentGroup,
   status: groupStatus,
   execute: fetchGroup,
-} = useFetch<Group>(
-  `${config.public.backendUrl}/api/users/group/${route.params.id}/`,
-  {
-    method: "GET",
-    headers: {
-      authorization: `${token.value}`,
-    },
-  },
-);
+} = useFetch<Group>(`/api/group/${route.params.id}/`);
 
 const schema = computed(() =>
   z.object({
@@ -112,7 +99,7 @@ const handleSubmit = async (formData: any) => {
     };
 
     const response = await $fetch(
-      `${config.public.backendUrl}/api/users/group/${route.params.id}/`,
+      `/api/group/${route.params.id}/`,
       {
         method: "PUT",
         headers: {

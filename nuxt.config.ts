@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   app: {
     layoutTransition: { name: "layout", mode: "out-in" },
   },
-  ssr: false,
+  ssr: true,
   css: ["~/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],
@@ -65,7 +65,7 @@ export default defineNuxtConfig({
   },
 
   auth: {
-    baseURL: `${process.env.NUXT_BACKEND_URL}/api/users`,
+    baseURL: `/api/auth`,
     provider: {
       type: "local",
       pages: {

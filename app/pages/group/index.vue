@@ -7,15 +7,9 @@ const { t } = useI18n();
 const NuxtLink = resolveComponent("NuxtLink");
 const config = useRuntimeConfig();
 const { token, data: userData } = useAuth();
-const { data: userList, status } = useFetch<User[]>(
-  `${config.public.backendUrl}/api/users/group/`,
-  {
-    method: "GET",
-    headers: {
-      authorization: `${token.value}`,
-    },
-  },
-);
+const { data: userList, status } = useFetch<User[]>(`/api/group/`, {
+  method: "GET",
+});
 
 const BreadcrumbData = useState(
   "BreadcrumbData",

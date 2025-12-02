@@ -18,7 +18,7 @@ export const usePermissionStore = defineStore("permission", {
 
       try {
         const { data: permission, status } = await useFetch<string[]>(
-          `${config.public.backendUrl}/api/users/user-permission/`,
+          `/api/user/user-permission/`,
           {
             headers: {
               authorization: `${token.value}`,

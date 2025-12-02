@@ -9,12 +9,7 @@ const mainStore = useMainStore();
 const { token } = useAuth();
 
 const { data: user, status } = useFetch<UserWithNames>(
-  `${config.public.backendUrl}/api/users/${route.params.id}/`,
-  {
-    headers: {
-      authorization: `${token.value}`,
-    },
-  },
+  `/api/user/${route.params.id}/`,
 );
 
 const submitError = ref(null as NuxtError<{ detail: string }> | null);
@@ -32,7 +27,7 @@ const handleSubmit = async (userFormData: any) => {
   }
   try {
     const response = await $fetch<UserWithNames>(
-      `${config.public.backendUrl}/api/users/${route.params.id}/`,
+      `/api/user/${route.params.id}/`,
       {
         headers: {
           authorization: `${token.value}`,
