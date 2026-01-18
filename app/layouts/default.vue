@@ -34,7 +34,7 @@ const open = useCookie("sidebar_state", { default: () => false });
       <SidebarInset>
         <header
           class="flex h-16 shrink-0 items-center gap-2 transition-[width,height,margin-left] duration-200 ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12"
-          :class="[open ? 'md:ml-52' : 'md:ml-12']"
+          :class="[open ? 'md:ml-70' : 'md:ml-12']"
         >
           <div class="flex items-center gap-2 px-4">
             <SidebarTrigger class="-ml-1" />
@@ -59,7 +59,7 @@ const open = useCookie("sidebar_state", { default: () => false });
         </header>
         <div
           class="flex flex-1 flex-col gap-4 p-4 pt-0 transition-all duration-200 ease-linear"
-          :class="[open ? 'md:pl-55' : 'md:pl-16']"
+          :class="[open ? 'md:pl-75' : 'md:pl-16']"
         >
           <slot />
         </div>

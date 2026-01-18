@@ -5,6 +5,7 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  House,
   Map,
   PieChart,
   Settings2,
@@ -36,6 +37,18 @@ export const data = {
     },
   ],
   navMain: [
+    {
+      title: "Home",
+      url: "#",
+      icon: House,
+      isActive: true,
+      items: [
+        {
+          title: "Home",
+          url: "/dashboard",
+        },
+      ],
+    },
     {
       title: "User & Permissions",
       url: "#",
