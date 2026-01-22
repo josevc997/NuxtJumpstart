@@ -96,7 +96,7 @@ definePageMeta({ auth: false, layout: "navbar" });
         {{ t("generalDescription") }}
       </div>
 
-      <Card
+      <CustomCard
         v-for="(item, index) in installedModules"
         :key="index"
         :item="item"

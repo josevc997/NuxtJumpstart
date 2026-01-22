@@ -31,7 +31,7 @@ type Data = (typeof props.chartData)[number];
 const chartConfig = {
   amount: {
     label: "Amount",
-    color: "var(--chart-1)",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig;
 </script>
